@@ -5,7 +5,7 @@
 #ifndef SPM_PROJECT_UTILS_H
 #define SPM_PROJECT_UTILS_H
 
-#define OUTPUT_FILE "output.bin"
+#define OUTPUT_FILE "./files/output.bin"
 
 #include <iostream>
 #include <fstream>
