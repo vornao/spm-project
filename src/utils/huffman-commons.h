@@ -26,16 +26,17 @@ string decode(const vector<bool> &encoded, const Node *root);
  * @param freqs the frequency map.
  * @return Node* the root of the Huffman tree.
  */
-Node*generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
-
+Node* generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
 
 /**
  * Generates a map of Huffman codes from a Huffman tree.
  * @param root the root of the Huffman tree.
  * @return unordered_map<char, vector<bool>>* a pointer to the map of Huffman codes.
  */
-unordered_map<char, vector<bool>> *generate_huffman_codes(Node *root);
+unique_ptr<unordered_map<char, vector<bool>>> generate_huffman_codes(Node *root);
 bool check_file(const string &filename, const string &seq, const Node* root);
+
+void free_tree(Node* root);
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H
 

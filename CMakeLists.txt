@@ -6,11 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(
         spm_project
         src/main.cpp
-        src/sequential/huffman-sequential.h
-        src/sequential/huffman-sequential.cpp
-        src/thread/huffman-threads.h
-        src/thread/huffman-threads.cpp
         src/utils/utils.h
         src/utils/huffman-commons.h
         src/utils/utils.cpp
-        src/utils/huffman-commons.cpp)
+        src/utils/huffman-commons.cpp src/utils/utimer.cpp src/thread/HuffmanParallel.cpp src/thread/HuffmanParallel.h src/sequential/HuffmanSequential.cpp src/sequential/HuffmanSequential.h)

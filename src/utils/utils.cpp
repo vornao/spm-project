@@ -85,4 +85,11 @@ std::vector<bool> *read_encoded_file(const std::string &filename) {
     return encoded;
 }
 
+void free_tree(Node *root) {
+    if (root == nullptr) return;
+    free_tree(root->left);
+    free_tree(root->right);
+    delete root;
+}
+
 

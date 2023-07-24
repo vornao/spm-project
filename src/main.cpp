@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "thread/huffman-threads.h"
-#include "sequential/huffman-sequential.h"
+#include "thread/HuffmanParallel.h"
+#include "sequential/HuffmanSequential.h"
 
 using namespace std;
 int main(int argc, char** argv) {
@@ -17,9 +17,18 @@ int main(int argc, char** argv) {
     auto n_threads = stoi(argv[4]);
 
     cout << "Filename: " << filename << endl;
-    cout << "Running Huffman GMR..." << endl;
-    huffman_thread::run(filename, n_mappers, n_reducers, n_threads);
+
+    {
+        cout << "Running Huffman GMR..." << endl;
+        HuffmanParallel huffman_parallel(n_mappers, n_reducers, n_threads, filename);
+        huffman_parallel.run();
+    }
+
     cout << "---------------------------------------------------------------" << endl;
-    cout << "Running Huffman Sequential..." << endl;
-    huffman_sequential::run(filename);
+    {
+        cout << "Running Huffman Sequential..." << endl;
+        HuffmanSequential huffman_sequential(n_mappers, n_reducers, n_threads, filename);
+        huffman_sequential.run();
+    }
+
 }
