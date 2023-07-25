@@ -6,7 +6,7 @@
 #define SPM_PROJECT_HUFFMANPARALLEL_H
 
 #include <string>
-#include "../utils/utils.h"
+#include "../utils/huffman-commons.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ class HuffmanParallel {
         unique_ptr<unordered_map<char, vector<bool>>> codes;
         unique_ptr<vector<bool>> encoded_seq;
 
-        unique_ptr<vector<bool>> encode();
+        unique_ptr<vector<vector<bool>>> encode();
         unordered_map<char, unsigned> generate_frequency();
 
     public:

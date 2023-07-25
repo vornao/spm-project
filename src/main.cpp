@@ -2,6 +2,7 @@
 #include <string>
 #include "thread/HuffmanParallel.h"
 #include "sequential/HuffmanSequential.h"
+#include "fastflow/HuffmanFastFlow.h"
 
 using namespace std;
 int main(int argc, char** argv) {
@@ -26,9 +27,15 @@ int main(int argc, char** argv) {
 
     cout << "---------------------------------------------------------------" << endl;
     {
-        cout << "Running Huffman Sequential..." << endl;
-        HuffmanSequential huffman_sequential(n_mappers, n_reducers, n_threads, filename);
+        //cout << "Running Huffman Sequential..." << endl;
+        HuffmanSequential huffman_sequential(filename);
         huffman_sequential.run();
+    }
+
+    {
+        cout << "Running Huffman FastFlow..." << endl;
+        HuffmanFastFlow huffman_fastflow(n_mappers, n_reducers, n_threads, filename);
+        huffman_fastflow.run();
     }
 
 }

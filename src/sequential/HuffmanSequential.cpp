@@ -3,17 +3,13 @@
 //
 
 #include "HuffmanSequential.h"
-#include "../utils/utils.h"
 #include "../utils/huffman-commons.h"
 
 using namespace std;
 
-HuffmanSequential::HuffmanSequential(size_t n_mappers, size_t n_reducers, size_t n_encoders, const string& filename) {
-    this->n_mappers = n_mappers;
-    this->n_reducers = n_reducers;
-    this->n_encoders = n_encoders;
-    this->filename = filename;
+HuffmanSequential::HuffmanSequential(const string &filename) {
 
+    this->filename = filename;
     this->seq = read_file(filename);
     this->input = vector<char>(seq.begin(), seq.end());
 
@@ -31,11 +27,10 @@ unordered_map<char, unsigned int> HuffmanSequential::generate_frequency() {
     return freq_map;
 }
 
-unique_ptr<vector<bool>> HuffmanSequential::encode() {
-    auto encoded = make_unique<vector<bool>>();
-    for (auto &c: seq) {
-        auto code = codes->at(c);
-        encoded->insert(encoded->end(), code.begin(), code.end());
+unique_ptr<vector<vector<bool>>> HuffmanSequential::encode() {
+    auto encoded = make_unique<vector<vector<bool>>>();
+    for (char i: seq) {
+        encoded->push_back(codes->at(i));
     }
     return encoded;
 }
@@ -51,8 +46,8 @@ void HuffmanSequential::run() {
     cout << "(took " << elapsed << "ms)" << endl;
 
     /** huffman tree generation **/
-    this-> tree = generate_huffman_tree(freqs);
-    this-> codes = generate_huffman_codes(tree);
+    this->tree = generate_huffman_tree(freqs);
+    this->codes = generate_huffman_codes(tree);
 
     // encode the sequence using the codes into a vector of bits.
     // using a vector of bool for convenience and efficiency.

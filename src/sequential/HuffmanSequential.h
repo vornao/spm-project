@@ -6,15 +6,12 @@
 #define SPM_PROJECT_HUFFMANSEQUENTIAL_H
 
 #include <string>
-#include "../utils/utils.h"
+#include "../utils/huffman-commons.h"
 
 using namespace std;
 
 class HuffmanSequential {
 private:
-    size_t n_mappers;
-    size_t n_reducers;
-    size_t n_encoders;
     string filename;
     string seq;
     vector<char> input;
@@ -24,11 +21,11 @@ private:
     unique_ptr<vector<bool>> encoded_seq;
 
     Node* tree = nullptr;
-    unique_ptr<vector<bool>> encode();
+    unique_ptr<vector<vector<bool>>> encode();
     unordered_map<char, unsigned> generate_frequency();
 
 public:
-    HuffmanSequential(size_t n_mappers, size_t n_reducers,size_t n_encoders, const string& filename);
+    HuffmanSequential(const string& filename);
     ~HuffmanSequential();
     void run();
 

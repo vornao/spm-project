@@ -2,29 +2,45 @@
 // Created by Luca Miglior on 24/07/23.
 //
 
-#include "HuffmanParallel.h"
-#include <utility>
-#include <iostream>
+#include <ff/ff.hpp>
+#include <ff/parallel_for.hpp>
 #include <thread>
+
+#include "HuffmanFastFlow.h"
 #include "../utils/huffman-commons.h"
 
-HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_reducers, size_t n_encoders, string filename) {
+using namespace ff;
+
+HuffmanFastFlow::HuffmanFastFlow(size_t n_mappers, size_t n_reducers, size_t n_encoders, string filename) {
     this->n_mappers = n_mappers;
     this->n_reducers = n_reducers;
     this->n_encoders = n_encoders;
-    this->filename = std::move(filename);
+    this->filename = filename;
 
     // read files
     this -> seq = read_file(this->filename);
     this -> input = vector<char>(this->seq.begin(), this->seq.end());
 }
 
-HuffmanParallel::~HuffmanParallel() {
-    free_tree(this->tree);
+HuffmanFastFlow::~HuffmanFastFlow() {
+    if (tree!=nullptr) free_tree(tree);
 }
 
-unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
+vector<vector<bool>>* HuffmanFastFlow::encode() {
+    auto encoded = new vector<vector<bool>>();
 
+    auto body = [&](const long i){
+        auto code = codes->at(i);
+        encoded->at(i) = code;
+    };
+
+    auto pf = ParallelFor(8);
+    pf.parallel_for(0, input.size()-1, 1, body);
+
+    return encoded;
+}
+
+unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
     unordered_map<char, unsigned> partial_freqs[n_mappers];
     vector<mutex> red_mutexes(n_reducers);
     vector<condition_variable> red_conds(n_reducers);
@@ -99,43 +115,18 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-unique_ptr<vector<vector<bool>>> HuffmanParallel::encode() {
-    vector<thread> thread_encoder(n_encoders);
-    unique_ptr<vector<vector<bool>>> buffer = make_unique<vector<vector<bool>>>(seq.size());
-
-    // split sequence in chunks and delegate the encoding to the mappers.
-    auto encode_executor = [&](size_t tid) {
-        auto start = tid * (seq.size() / n_encoders);
-        auto end = (tid + 1) * (seq.size() / n_encoders);
-        if (tid == n_encoders - 1) end = seq.size();
-
-        for (size_t i = start; i < end; i++) {
-            auto c = seq[i];
-            auto code = (*codes)[c];
-            buffer->at(i) = code;
-        }
-    };
-
-    for (size_t i = 0; i < n_encoders; i++) thread_encoder[i] = thread(encode_executor, i);
-    for (auto &t: thread_encoder) t.join();
-
-    return buffer;
-}
-
-void HuffmanParallel::run() {
-
-    /** frequency map generation **/
-    cout << "> Generating frequency map (parallel GMR)... ";
+void HuffmanFastFlow::run() {
+    cout << "> Generating frequency map (parallel FF)... ";
     auto start = chrono::high_resolution_clock::now();
     auto freqs = generate_frequency();
     auto end_freqs = chrono::high_resolution_clock::now();
     auto elapsed = chrono::duration_cast<chrono::milliseconds>(end_freqs - start).count();
     cout << "(took " << elapsed << "ms)" << endl;
 
-    /** huffman tree generation **/
+    /** huffman tree generation *
+    cout << "> Generating Huffman tree...";
     this -> tree = generate_huffman_tree(freqs);
     this -> codes = generate_huffman_codes(tree);
-
 
     /** encoding **/
     cout << "> Encoding sequence...";
@@ -157,7 +148,4 @@ void HuffmanParallel::run() {
 
     cout << "> Total time (GMR): " << total_elapsed << "ms" << endl;
 }
-
-
-
 
