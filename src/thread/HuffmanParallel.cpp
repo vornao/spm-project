@@ -6,6 +6,10 @@
 #include <utility>
 #include <iostream>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <memory>
+
 #include "../utils/huffman-commons.h"
 
 HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_reducers, size_t n_encoders, string filename) {
@@ -99,19 +103,20 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-unique_ptr<vector<vector<bool>>> HuffmanParallel::encode() {
+unique_ptr<vector<vector<bool>>>HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
-    unique_ptr<vector<vector<bool>>> buffer = make_unique<vector<vector<bool>>>(seq.size());
+    auto size = seq.length();
+    auto buffer = make_unique<vector<vector<bool>>>(size);
 
     // split sequence in chunks and delegate the encoding to the mappers.
     auto encode_executor = [&](size_t tid) {
-        auto start = tid * (seq.size() / n_encoders);
-        auto end = (tid + 1) * (seq.size() / n_encoders);
-        if (tid == n_encoders - 1) end = seq.size();
+        auto start = tid * (size / n_encoders);
+        auto end = (tid + 1) * (size / n_encoders);
+        if (tid == n_encoders - 1) end = size;
+
 
         for (size_t i = start; i < end; i++) {
-            auto c = seq[i];
-            auto code = (*codes)[c];
+            auto code = codes->at(seq[i]);
             buffer->at(i) = code;
         }
     };
@@ -141,7 +146,6 @@ void HuffmanParallel::run() {
     cout << "> Encoding sequence...";
     auto start_encoding = chrono::high_resolution_clock::now();
     auto encoded = encode();
-
     auto end = chrono::high_resolution_clock::now();
     auto elapsed_encoding = chrono::duration_cast<chrono::milliseconds>(end - start_encoding).count();
     cout << "(took " << elapsed_encoding << "ms)" << endl;

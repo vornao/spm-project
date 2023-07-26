@@ -7,6 +7,7 @@
 
 #include <string>
 #include "../utils/huffman-commons.h"
+#include <memory>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ class HuffmanParallel {
         Node* tree{};
         unordered_map<char, unsigned> freq_map;
         unique_ptr<unordered_map<char, vector<bool>>> codes;
-        unique_ptr<vector<bool>> encoded_seq;
+        vector<bool> encoded_seq;
 
         unique_ptr<vector<vector<bool>>> encode();
         unordered_map<char, unsigned> generate_frequency();

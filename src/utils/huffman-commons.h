@@ -6,6 +6,8 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
+#include <memory>
+#include <bitset>
 
 #define OUTPUT_FILE "output.bin"
 

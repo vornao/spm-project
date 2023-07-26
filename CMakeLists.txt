@@ -19,7 +19,7 @@ endif ()
 
 # add -lpthread flag
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 add_definitions(-DNO_DEFAULT_MAPPING)
 
 add_executable(

@@ -6,6 +6,8 @@
 #define SPM_PROJECT_HUFFMANSEQUENTIAL_H
 
 #include <string>
+#include <chrono>
+#include <memory>
 #include "../utils/huffman-commons.h"
 
 using namespace std;

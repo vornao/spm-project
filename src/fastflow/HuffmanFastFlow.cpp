@@ -28,32 +28,32 @@ HuffmanFastFlow::~HuffmanFastFlow() {
 
 unique_ptr<vector<vector<bool>>> HuffmanFastFlow::encode() {
     // create
-    auto encoded = make_unique<vector<vector<bool>>>(seq.length());
+    auto buffer = make_unique<vector<vector<bool>>>(seq.length());
     auto body = [&](const long i){
         auto code = codes->at(seq[i]);
-        encoded->at(i) = code;
+        buffer->at(i) = code;
     };
 
-    auto pf = ParallelFor(n_encoders);
+    auto pf = ParallelFor((long)n_encoders);
     pf.parallel_for(0, (long)seq.size(), 1, body);
 
-    return encoded;
+    return buffer;
 }
 
 unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
     auto res = unordered_map<char, unsigned int>();
 
-    auto mapf = [&](const long i, unordered_map<char, unsigned> &tempsum){
+    auto map_f = [&](const long i, unordered_map<char, unsigned> &tempsum){
         tempsum[seq[i]]++;
     };
 
-    auto redf = [&](unordered_map<char, unsigned> &a, const unordered_map<char, unsigned> &b){
+    auto red_f = [&](unordered_map<char, unsigned> &a, const unordered_map<char, unsigned> &b){
         for(auto &it: b) a[it.first] += it.second;
     };
 
 
     auto pf = ParallelForReduce<unordered_map<char, unsigned>>(8);
-    pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, mapf, redf);
+    pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f);
     return res;
 }
 
