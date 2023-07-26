@@ -13,14 +13,14 @@ HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_reducers, size_t n_e
     this->n_reducers = n_reducers;
     this->n_encoders = n_encoders;
     this->filename = std::move(filename);
+    this->tree = nullptr;
 
     // read files
     this -> seq = read_file(this->filename);
-    this -> input = vector<char>(this->seq.begin(), this->seq.end());
 }
 
 HuffmanParallel::~HuffmanParallel() {
-    free_tree(this->tree);
+    if(tree) free_tree(this->tree);
 }
 
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
@@ -40,15 +40,15 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
         // delegate the computation of the partial frequencies to the mappers.
         // we split everything here in chuncks in order to make it parallel computation
         // so, splitting phase
-        auto start = tid * (input.size() / n_mappers);
-        auto end = (tid + 1) * (input.size() / n_mappers);
-        if (tid == n_mappers - 1) end = input.size();
+        auto start = tid * (seq.length() / n_mappers);
+        auto end = (tid + 1) * (seq.length() / n_mappers);
+        if (tid == n_mappers - 1) end = seq.length();
 
         // mapping phase.
         // note: instead of returning the tuple (char, 1) we return a map with the partial frequencies.
         // this will reduce the amount of data to be transferred to the reducers.
         for (size_t i = start; i < end; i++) {
-            partial_freqs[tid][input[i]]++;
+            partial_freqs[tid][seq[i]]++;
         }
 
         // push the partial frequencies to the reducers queues.
@@ -59,6 +59,7 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
             red_conds[red_id].notify_one();
         }
     };
+
     auto reduce_executor = [&](size_t nred) {
         unordered_map<char, unsigned> partial_res;
 

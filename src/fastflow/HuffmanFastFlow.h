@@ -22,13 +22,12 @@ private:
     string filename;
 
     string seq;
-    vector<char> input;
 
     Node* tree;
     unordered_map<char, unsigned> freq_map;
     unique_ptr<unordered_map<char, vector<bool>>> codes;
 
-    vector<vector<bool>>* encode();
+    unique_ptr<vector<vector<bool>>> encode();
     unordered_map<char, unsigned> generate_frequency();
 
 public:

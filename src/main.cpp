@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
     cout << "---------------------------------------------------------------" << endl;
     {
         //cout << "Running Huffman Sequential..." << endl;
-        HuffmanSequential huffman_sequential(filename);
-        huffman_sequential.run();
+        //HuffmanSequential huffman_sequential(filename);
+        //huffman_sequential.run();
     }
 
     {

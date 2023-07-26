@@ -11,6 +11,7 @@
 #include "../utils/huffman-commons.h"
 
 using namespace std;
+
 /**
  * Decodes a sequence of bits using a Huffman tree.
  * @param encoded the sequence of bits to decode.
@@ -38,7 +39,7 @@ string decode(const vector<bool> &encoded, const Node *root) {
  * @param freqs the frequency map.
  * @return Node* the root of the Huffman tree.
  */
-Node*generate_huffman_tree(const unordered_map<char, unsigned> &freqs) {
+Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs) {
 
     // instantiating a priority queue to store the nodes, ordered by frequency.
     auto q = priority_queue<Node *, vector<Node *>, Compare>();
@@ -60,7 +61,6 @@ Node*generate_huffman_tree(const unordered_map<char, unsigned> &freqs) {
     // returning the root of the tree
     return q.top();
 }
-
 
 /**
  * Generates a map of Huffman codes from a Huffman tree.
@@ -98,28 +98,11 @@ unique_ptr<unordered_map<char, vector<bool>>> generate_huffman_codes(Node *root)
     return codes;
 }
 
-
-bool check_file(const string &filename, const string &seq, const Node* root) {
-    // read the file and decode it to string
-    auto encoded = read_encoded_file(filename);
-    auto decoded = decode(*encoded, root);
-    return seq == decoded;
-}
-
-void print_codes(std::unordered_map<char, std::vector<bool>> &codes) {
-    for (auto &it: codes) {
-        std::cout << it.first << ": ";
-        for (auto b: it.second) std::cout << b;
-        std::cout << std::endl;
-    }
-}
-
-void print_encoded_sequence(std::vector<bool> &encoded) {
-    for (auto b: encoded) std::cout << b;
-    std::cout << std::endl;
-}
-
-
+/**
+ * Reads the file and returns the sequence of characters.
+ * @param filename the name of the file to read.
+ * @return the sequence of characters.
+ */
 std::string read_file(const std::string &filename) {
     std::ifstream in(filename);
     std::string seq;
@@ -128,43 +111,6 @@ std::string read_file(const std::string &filename) {
     getline(in, seq);
     in.close();
     return seq;
-}
-
-
-void write_to_file(std::vector<std::vector<bool>> &encoded, const std::string &filename) {
-    std::ofstream out(filename, std::ios::binary);
-    if (!out.is_open()) throw std::runtime_error("Could not open file.");
-
-    // convert the sequence of bits to bytes and write them to the file.
-    // now we have a vector of vectors of bools, so we need to iterate over the vector of vectors.
-
-    std::vector<unsigned char> bytes;
-    int bitsWritten = 0;
-    int totalWritten = 0;
-    unsigned char byte = 0;
-
-    for (const auto& vec : encoded) {
-        for (const bool bit : vec) {
-            byte |= (bit << bitsWritten);
-            bitsWritten++;
-            totalWritten++;
-            if (bitsWritten == 8) {
-                bytes.push_back(byte);
-                byte = 0;
-                bitsWritten = 0;
-            }
-        }
-    }
-
-    // Handle padding
-    if (bitsWritten > 0) bytes.push_back(byte);
-    unsigned char header = 8 - (totalWritten % 8);
-    if (header == 8) header = 0;
-
-    // writing a header which contains the number of bits to discard from the last byte.
-    out << char(header);
-    out.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
-    out.close();
 }
 
 /**
@@ -195,9 +141,105 @@ std::vector<bool> *read_encoded_file(const std::string &filename) {
     return encoded;
 }
 
+/**
+ * Checks if the decoded sequence is equal to the original sequence.
+ * @param filename the name of the file to read.
+ * @param seq the original sequence.
+ * @param root the root of the Huffman tree.
+ * @return true if the decoded sequence is equal to the original sequence, false otherwise.
+ */
+bool check_file(const string &filename, const string &seq, const Node *root) {
+    // read the file and decode it to string
+    auto encoded = read_encoded_file(filename);
+    auto decoded = decode(*encoded, root);
+    return seq == decoded;
+}
+
+/**
+ * Print the codes to the console.
+ * @param codes the map of codes.
+ */
+void print_codes(std::unordered_map<char, std::vector<bool>> &codes) {
+    for (auto &it: codes) {
+        std::cout << it.first << ": ";
+        for (auto b: it.second) std::cout << b;
+        std::cout << std::endl;
+    }
+}
+
+
+/**
+ * Print the encoded sequence to the console.
+ * @param encoded the sequence of bits to print.
+ */
+void print_encoded_sequence(std::vector<bool> &encoded) {
+    for (auto b: encoded) std::cout << b;
+    std::cout << std::endl;
+}
+
+
+/**
+ * Writes the encoded sequence to a file, grouping bits into bytes to write an effective compression.
+ * First byte is the header, which contains the number of bits to discard from the last byte, if the number of bits
+ * is not a multiple of 8.
+ *
+ * @param encoded the encoded sequence (vector of vectors of bools).
+ * @param filename the name of the file to write to.
+ */
+void write_to_file(std::vector<std::vector<bool>> &encoded, const std::string &filename) {
+    std::ofstream out(filename, std::ios::binary);
+    if (!out.is_open()) throw std::runtime_error("Could not open file.");
+
+    // convert the sequence of bits to bytes and write them to the file.
+    // now we have a vector of vectors of bools, so we need to iterate over the vector of vectors.
+
+    std::vector<unsigned char> bytes;
+    int bitsWritten = 0;
+    int totalWritten = 0;
+    unsigned char byte = 0;
+
+    for (const auto &vec: encoded) {
+        for (const bool bit: vec) {
+            byte |= (bit << bitsWritten);
+            bitsWritten++;
+            totalWritten++;
+            if (bitsWritten == 8) {
+                bytes.push_back(byte);
+                byte = 0;
+                bitsWritten = 0;
+            }
+        }
+    }
+
+    // Handle padding
+    if (bitsWritten > 0) bytes.push_back(byte);
+    unsigned char header = 8 - (totalWritten % 8);
+    if (header == 8) header = 0;
+
+    // writing a header which contains the number of bits to discard from the last byte.
+    out << char(header);
+    out.write(reinterpret_cast<const char *>(bytes.data()), (long)bytes.size());
+    out.close();
+}
+
+
+/**
+ * Frees the memory allocated for the Huffman tree.
+ * @param root the root of the Huffman tree.
+ */
 void free_tree(Node *root) {
-    if (root == nullptr) return;
-    free_tree(root->left);
-    free_tree(root->right);
-    delete root;
+    // free tree iteratively, using a queue.
+    if(!root) return;
+    auto q = queue<Node *>();
+    q.push(root);
+
+    while(!q.empty()){
+        auto current = q.front();
+        q.pop();
+
+        if (current->left != nullptr) q.push(current->left);
+        if (current->right != nullptr) q.push(current->right);
+
+        delete current;
+    }
 }

@@ -16,11 +16,9 @@ class HuffmanParallel {
         size_t n_reducers;
         size_t n_encoders;
         string filename;
-
         string seq;
-        vector<char> input;
 
-        Node* tree;
+        Node* tree{};
         unordered_map<char, unsigned> freq_map;
         unique_ptr<unordered_map<char, vector<bool>>> codes;
         unique_ptr<vector<bool>> encoded_seq;
@@ -34,6 +32,5 @@ class HuffmanParallel {
         void run();
 
 };
-
 
 #endif //SPM_PROJECT_HUFFMANPARALLEL_H
