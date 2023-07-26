@@ -38,7 +38,7 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     auto map_executor = [&](size_t tid) {
 
         // delegate the computation of the partial frequencies to the mappers.
-        // we split everything here in chuncks in order to make it parallel computation
+        // we split everything here in chunks in order to make it parallel computation
         // so, splitting phase
         auto start = tid * (seq.length() / n_mappers);
         auto end = (tid + 1) * (seq.length() / n_mappers);
@@ -96,7 +96,6 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
     // join reducers
     for (auto &t: thread_reducers) t.join();
-    this -> freq_map = result;
     return result;
 }
 

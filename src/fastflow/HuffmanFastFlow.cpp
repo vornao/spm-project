@@ -51,11 +51,9 @@ unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
         for(auto &it: b) a[it.first] += it.second;
     };
 
-    auto idendity_map = unordered_map<char, unsigned>();
 
     auto pf = ParallelForReduce<unordered_map<char, unsigned>>(8);
-
-    pf.parallel_reduce(res, idendity_map, 0, (long)seq.size(), 1, mapf, redf, 8);
+    pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, mapf, redf);
     return res;
 }
 
