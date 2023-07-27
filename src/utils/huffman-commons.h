@@ -10,6 +10,7 @@
 #include <bitset>
 
 #define OUTPUT_FILE "output.bin"
+#define BENCHMARK_FILE "benchmark.csv"
 
 using namespace std;
 
