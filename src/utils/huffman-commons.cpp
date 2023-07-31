@@ -68,8 +68,8 @@ Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs) {
  * @param root the root of the Huffman tree.
  * @return unordered_map<char, vector<bool>>* a pointer to the map of Huffman codes.
  */
-unique_ptr<unordered_map<char, vector<bool>>> generate_huffman_codes(Node *root) {
-    auto codes = make_unique<unordered_map<char, vector<bool>>>();
+unordered_map<char, vector<bool>> generate_huffman_codes(Node *root) {
+    auto codes = unordered_map<char, vector<bool>>();
     auto q = queue<pair<Node *, vector<bool>>>();
 
     q.emplace(root, vector<bool>());
@@ -81,7 +81,7 @@ unique_ptr<unordered_map<char, vector<bool>>> generate_huffman_codes(Node *root)
         auto code = elem.second;
         q.pop();
 
-        if (node->c != '\0') (*codes)[node->c] = code;
+        if (node->c != '\0') (codes)[node->c] = code;
 
         if (node->left != nullptr) {
             auto left_code = code;

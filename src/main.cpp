@@ -21,6 +21,8 @@ int main(int argc, char** argv) {
 
     cout << "---------------------------------------------------------------" << endl;
     cout << "Filename: " << filename << endl;
+    // print current directory
+    system("pwd");
 
     // translate to if else
     if (exec_type == "seq") {
@@ -39,5 +41,4 @@ int main(int argc, char** argv) {
         cout << "Invalid execution type" << endl;
         return 1;
     }
-
 }

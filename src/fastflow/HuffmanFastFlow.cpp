@@ -26,12 +26,12 @@ HuffmanFastFlow::~HuffmanFastFlow() {
     if (tree!=nullptr) free_tree(tree);
 }
 
-unique_ptr<vector<vector<bool>>> HuffmanFastFlow::encode() {
+vector<vector<bool>> HuffmanFastFlow::encode() {
     // create
-    auto buffer = make_unique<vector<vector<bool>>>(seq.length());
+    auto buffer = vector<vector<bool>>(seq.length());
     auto body = [&](const long i){
-        auto code = codes->at(seq[i]);
-        buffer->at(i) = code;
+        auto code = codes[seq[i]];
+        buffer[i] = code;
     };
 
     auto pf = ParallelFor((long)n_encoders);
@@ -50,7 +50,6 @@ unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
     auto red_f = [&](unordered_map<char, unsigned> &a, const unordered_map<char, unsigned> &b){
         for(auto &it: b) a[it.first] += it.second;
     };
-
 
     auto pf = ParallelForReduce<unordered_map<char, unsigned>>(8);
     pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f);
@@ -80,7 +79,7 @@ void HuffmanFastFlow::run() {
     auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start_encoding).count();
 
     auto start_writing = chrono::high_resolution_clock::now();
-    write_to_file(*encoded, OUTPUT_FILE);
+    write_to_file(encoded, OUTPUT_FILE);
     auto end_writing = chrono::high_resolution_clock::now();
     auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
 

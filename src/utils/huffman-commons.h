@@ -9,8 +9,8 @@
 #include <memory>
 #include <bitset>
 
-#define OUTPUT_FILE "output.bin"
-#define BENCHMARK_FILE "benchmark.csv"
+#define OUTPUT_FILE "./files/output.bin"
+#define BENCHMARK_FILE "./files/benchmark.csv"
 
 using namespace std;
 
@@ -53,7 +53,7 @@ std::vector<bool> *read_encoded_file(const std::string &filename);
 
 Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
 
-unique_ptr<unordered_map<char, vector<bool>>> generate_huffman_codes(Node *root);
+unordered_map<char, vector<bool>> generate_huffman_codes(Node *root);
 
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H

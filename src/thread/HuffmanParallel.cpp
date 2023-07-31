@@ -105,21 +105,18 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-unique_ptr<vector<vector<bool>>>HuffmanParallel::encode() {
+vector<vector<bool>>HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
     auto size = seq.length();
-    auto buffer = make_unique<vector<vector<bool>>>(size);
+    auto buffer = vector<vector<bool>>(size);
 
     // split sequence in chunks and delegate the encoding to the mappers.
     auto encode_executor = [&](size_t tid) {
         auto start = tid * (size / n_encoders);
         auto end = (tid + 1) * (size / n_encoders);
         if (tid == n_encoders - 1) end = size;
-
-
         for (size_t i = start; i < end; i++) {
-            auto code = codes->at(seq[i]);
-            buffer->at(i) = code;
+            buffer[i] = codes[seq[i]];
         }
     };
 
@@ -153,7 +150,7 @@ void HuffmanParallel::run() {
     auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start_encoding).count();
 
     auto start_writing = chrono::high_resolution_clock::now();
-    write_to_file(*encoded, OUTPUT_FILE);
+    write_to_file(encoded, OUTPUT_FILE);
     auto end_writing = chrono::high_resolution_clock::now();
     auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
 

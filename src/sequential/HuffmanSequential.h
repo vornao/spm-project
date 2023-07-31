@@ -19,11 +19,11 @@ private:
     vector<char> input;
 
     unordered_map<char, unsigned> freq_map;
-    unique_ptr<unordered_map<char, vector<bool>>> codes;
+    unordered_map<char, vector<bool>> codes;
     unique_ptr<vector<bool>> encoded_seq;
 
     Node* tree = nullptr;
-    unique_ptr<vector<vector<bool>>> encode();
+    vector<vector<bool>> encode();
     unordered_map<char, unsigned> generate_frequency();
 
 public:
