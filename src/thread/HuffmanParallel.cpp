@@ -105,10 +105,10 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-vector<vector<bool>>HuffmanParallel::encode() {
+vector<vector<bool>*>HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
     auto size = seq.length();
-    auto buffer = vector<vector<bool>>(size);
+    auto buffer = vector<vector<bool>*>(size);
 
     // split sequence in chunks and delegate the encoding to the mappers.
     auto encode_executor = [&](size_t tid) {

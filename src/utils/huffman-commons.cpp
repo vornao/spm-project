@@ -68,8 +68,8 @@ Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs) {
  * @param root the root of the Huffman tree.
  * @return unordered_map<char, vector<bool>>* a pointer to the map of Huffman codes.
  */
-unordered_map<char, vector<bool>> generate_huffman_codes(Node *root) {
-    auto codes = unordered_map<char, vector<bool>>();
+unordered_map<char, vector<bool>*> generate_huffman_codes(Node *root) {
+    auto codes = unordered_map<char, vector<bool>*>();
     auto q = queue<pair<Node *, vector<bool>>>();
 
     q.emplace(root, vector<bool>());
@@ -81,7 +81,7 @@ unordered_map<char, vector<bool>> generate_huffman_codes(Node *root) {
         auto code = elem.second;
         q.pop();
 
-        if (node->c != '\0') (codes)[node->c] = code;
+        if (node->c != '\0') (codes)[node->c] = new vector<bool>(code);
 
         if (node->left != nullptr) {
             auto left_code = code;
@@ -187,7 +187,7 @@ void print_encoded_sequence(std::vector<bool> &encoded) {
  * @param encoded the encoded sequence (vector of vectors of bools).
  * @param filename the name of the file to write to.
  */
-void write_to_file(std::vector<std::vector<bool>> &encoded, const std::string &filename) {
+void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename) {
     std::ofstream out(filename, std::ios::binary);
     if (!out.is_open()) throw std::runtime_error("Could not open file.");
 
@@ -200,7 +200,7 @@ void write_to_file(std::vector<std::vector<bool>> &encoded, const std::string &f
     unsigned char byte = 0;
 
     for (const auto &vec: encoded) {
-        for (const bool bit: vec) {
+        for (auto bit: *vec) {
             byte |= (bit << bitsWritten);
             bitsWritten++;
             totalWritten++;

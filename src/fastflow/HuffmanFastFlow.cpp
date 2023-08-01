@@ -26,9 +26,9 @@ HuffmanFastFlow::~HuffmanFastFlow() {
     if (tree!=nullptr) free_tree(tree);
 }
 
-vector<vector<bool>> HuffmanFastFlow::encode() {
+vector<vector<bool>*> HuffmanFastFlow::encode() {
     // create
-    auto buffer = vector<vector<bool>>(seq.length());
+    auto buffer = vector<vector<bool>*>(seq.length());
     auto body = [&](const long i){
         auto code = codes[seq[i]];
         buffer[i] = code;

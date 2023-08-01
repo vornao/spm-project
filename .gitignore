@@ -2,5 +2,9 @@
 
 *.bin
 *.log
+*.ipynb
 .DS_Store
 /src/lib/
+build
+python
+files

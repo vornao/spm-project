@@ -43,7 +43,7 @@ void print_codes(std::unordered_map<char, std::vector<bool>> &codes);
 
 void print_encoded_sequence(std::vector<bool> &encoded);
 
-void write_to_file(std::vector<std::vector<bool>> &encoded, const std::string &filename);
+void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename);
 
 std::string decode(const vector<bool> &encoded, const Node *root);
 
@@ -53,7 +53,7 @@ std::vector<bool> *read_encoded_file(const std::string &filename);
 
 Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
 
-unordered_map<char, vector<bool>> generate_huffman_codes(Node *root);
+unordered_map<char, vector<bool>*> generate_huffman_codes(Node *root);
 
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H
