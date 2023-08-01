@@ -27,6 +27,7 @@ HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_reducers, size_t n_e
 
 HuffmanParallel::~HuffmanParallel() {
     if(tree) free_tree(this->tree);
+    free_codes(this->codes);
 }
 
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {

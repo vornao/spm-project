@@ -244,3 +244,10 @@ void free_tree(Node *root) {
         delete current;
     }
 }
+
+void free_codes(unordered_map<char, vector<bool>*> &codes) {
+    for (auto &it: codes) {
+        delete it.second;
+    }
+}
+

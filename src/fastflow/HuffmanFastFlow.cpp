@@ -24,6 +24,7 @@ HuffmanFastFlow::HuffmanFastFlow(size_t n_mappers, size_t n_reducers, size_t n_e
 
 HuffmanFastFlow::~HuffmanFastFlow() {
     if (tree!=nullptr) free_tree(tree);
+    free_codes(codes);
 }
 
 vector<vector<bool>*> HuffmanFastFlow::encode() {

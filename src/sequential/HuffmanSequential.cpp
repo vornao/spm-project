@@ -19,6 +19,7 @@ HuffmanSequential::HuffmanSequential(const string &filename) {
 
 HuffmanSequential::~HuffmanSequential() {
     free_tree(tree);
+    free_codes(codes);
 }
 
 unordered_map<char, unsigned int> HuffmanSequential::generate_frequency() {
@@ -76,4 +77,7 @@ void HuffmanSequential::run() {
     benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
     auto bench_string = to_string(0) + "," + to_string(0) + "," + to_string(0) + "," + to_string(time_freqs) + "," + to_string(time_tree_codes) + "," + to_string(time_encoding) + "," + to_string(time_read) + "," + to_string(time_writing) + "," + to_string(total_elapsed_no_rw) + "," + to_string(total_elapsed_rw) + "," + "seq" + "\n";
     benchmark_file << bench_string;
+    benchmark_file.close();
+
+
 }

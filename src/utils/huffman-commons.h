@@ -55,6 +55,11 @@ Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
 
 unordered_map<char, vector<bool>*> generate_huffman_codes(Node *root);
 
+void free_tree(Node *root);
+
+void free_codes(unordered_map<char, vector<bool>*> &codes);
+
+
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H
 
