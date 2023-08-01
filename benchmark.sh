@@ -17,10 +17,12 @@ fi
 echo "*** Running with different number of threads ***"
 for (( i = 2; i < 130; i=i+2 )) do
     echo "Running with $i threads..."
-    ./build/spm_project ./files/input.20M.txt $i 1 $i gmr
+    ./build/spm_project ./files/input.160M.txt $i 1 $i gmr
+    sleep 1
 done
 
 echo "Running benchmark with fastflow"
 for (( i = 2; i < 130; i= i+2 )) do
-    ./build/spm_project ./files/input.20M.txt $i 1 $i ff
+    ./build/spm_project ./files/input.160M.txt $i 1 $i ff
+    sleep 1
 done

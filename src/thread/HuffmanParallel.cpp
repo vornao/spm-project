@@ -112,12 +112,15 @@ vector<vector<bool>*>HuffmanParallel::encode() {
 
     // split sequence in chunks and delegate the encoding to the mappers.
     auto encode_executor = [&](size_t tid) {
+        // make an equal split of the sequence
         auto start = tid * (size / n_encoders);
         auto end = (tid + 1) * (size / n_encoders);
         if (tid == n_encoders - 1) end = size;
-        for (size_t i = start; i < end; i++) {
-            buffer[i] = codes[seq[i]];
-        }
+
+        // print chunk length
+        cout << "Encoder " << tid << " encoding " << end - start << " chars" << endl;
+
+        for (size_t i = start; i < end; i++) buffer[i] = codes[seq[i]];
     };
 
     for (size_t i = 0; i < n_encoders; i++) thread_encoder[i] = thread(encode_executor, i);
