@@ -52,36 +52,36 @@ unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
         for(auto &it: b) a[it.first] += it.second;
     };
 
-    auto pf = ParallelForReduce<unordered_map<char, unsigned>>(8);
+    auto pf = ParallelForReduce<unordered_map<char, unsigned>>(n_mappers);
     pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f);
     return res;
 }
 
 void HuffmanFastFlow::run() {
     /** frequency map generation **/
-    auto read_start = chrono::high_resolution_clock::now();
+    auto read_start = chrono::system_clock::now();
     this -> seq = read_file(this->filename);
-    auto time_read = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - read_start).count();
+    auto time_read = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - read_start).count();
 
-    auto start = chrono::high_resolution_clock::now();
+    auto start = chrono::system_clock::now();
     auto freqs = generate_frequency();
-    auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+    auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start).count();
 
     /** huffman tree generation **/
-    auto start_tree_codes = chrono::high_resolution_clock::now();
+    auto start_tree_codes = chrono::system_clock::now();
     this -> tree = generate_huffman_tree(freqs);
     this -> codes = generate_huffman_codes(tree);
-    auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start_tree_codes).count();
+    auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_tree_codes).count();
 
 
     /** encoding **/
-    auto start_encoding = chrono::high_resolution_clock::now();
+    auto start_encoding = chrono::system_clock::now();
     auto encoded = encode();
-    auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start_encoding).count();
+    auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_encoding).count();
 
-    auto start_writing = chrono::high_resolution_clock::now();
+    auto start_writing = chrono::system_clock::now();
     write_to_file(encoded, OUTPUT_FILE);
-    auto end_writing = chrono::high_resolution_clock::now();
+    auto end_writing = chrono::system_clock::now();
     auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
 
     // check file and print result in green if correct, red otherwise.

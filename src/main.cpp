@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "thread/HuffmanParallel.h"
+#include "thread/HuffmanGMR.h"
 #include "sequential/HuffmanSequential.h"
 #include "fastflow/HuffmanFastFlow.h"
 
@@ -19,6 +20,7 @@ int main(int argc, char** argv) {
     auto n_threads = stoi(argv[4]);
     auto exec_type = string(argv[5]); //seq gmr ff
 
+
     cout << "---------------------------------------------------------------" << endl;
     cout << "Filename: " << filename << endl;
 
@@ -29,12 +31,18 @@ int main(int argc, char** argv) {
         huffman_sequential.run();
     } else if (exec_type == "gmr") {
         cout << "Running Huffman Google MapReduce..." << endl;
-        HuffmanParallel huffman_parallel(n_mappers, n_reducers, n_threads, filename);
-        huffman_parallel.run();
+        HuffmanGMR huffman_gmr(n_mappers, n_reducers, n_threads, filename);
+        huffman_gmr.run();
+
     } else if (exec_type == "ff") {
         cout << "Running Huffman FastFlow..." << endl;
         HuffmanFastFlow huffman_fastflow(n_mappers, n_reducers, n_threads, filename);
         huffman_fastflow.run();
+    }
+    else if (exec_type == "map") {
+        cout << "Running Huffman Map-Parallel..." << endl;
+        HuffmanParallel huffman_parallel(n_mappers, n_threads, filename);
+        huffman_parallel.run();
     } else {
         cout << "Invalid execution type" << endl;
         return 1;

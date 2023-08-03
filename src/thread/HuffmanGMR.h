@@ -2,8 +2,8 @@
 // Created by Luca Miglior on 24/07/23.
 //
 
-#ifndef SPM_PROJECT_HUFFMANPARALLEL_H
-#define SPM_PROJECT_HUFFMANPARALLEL_H
+#ifndef SPM_PROJECT_HUFFMANGMR_H
+#define SPM_PROJECT_HUFFMANGMR_H
 
 #include <string>
 #include <memory>
@@ -11,9 +11,10 @@
 
 using namespace std;
 
-class HuffmanParallel {
+class HuffmanGMR {
     private:
         size_t n_mappers;
+        size_t n_reducers;
         size_t n_encoders;
         string filename;
         string seq;
@@ -27,10 +28,9 @@ class HuffmanParallel {
         unordered_map<char, unsigned> generate_frequency();
 
     public:
-        // for the sequential reducer version
-        HuffmanParallel(size_t n_mappers, size_t n_encoders, string filename);
-
-        ~HuffmanParallel();
+        // for the parallel reducer version
+        HuffmanGMR(size_t n_mappers, size_t n_reducers, size_t n_encoders, string filename);
+        ~HuffmanGMR();
         void run();
 
 };

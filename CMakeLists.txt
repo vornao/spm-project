@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(spm_project)
 
-set(CMAKE_CXX_STANDARD 20)
+
+set(CMAKE_CXX_STANDARD 17)
 
 if (APPLE)
     # print message
@@ -23,15 +24,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -lpthread")
 add_definitions(-DNO_DEFAULT_MAPPING)
 
 add_executable(
-        spm_project
-        src/main.cpp
-        src/utils/huffman-commons.h
-        src/utils/huffman-commons.cpp
-        src/utils/utimer.cpp
-        src/thread/HuffmanParallel.cpp
-        src/thread/HuffmanParallel.h
-        src/sequential/HuffmanSequential.cpp
-        src/sequential/HuffmanSequential.h
-        src/fastflow/HuffmanFastFlow.cpp
-        src/fastflow/HuffmanFastFlow.h
+    spm_project
+    src/main.cpp
+    src/utils/huffman-commons.h
+    src/utils/huffman-commons.cpp
+    src/utils/utimer.cpp
+    src/thread/HuffmanParallel.cpp
+    src/thread/HuffmanParallel.h
+    src/thread/HuffmanGMR.h
+    src/thread/HuffmanGMR.cpp
+    src/sequential/HuffmanSequential.cpp
+    src/sequential/HuffmanSequential.h
+    src/fastflow/HuffmanFastFlow.cpp
+    src/fastflow/HuffmanFastFlow.h
 )
+
+
