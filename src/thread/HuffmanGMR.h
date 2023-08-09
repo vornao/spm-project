@@ -18,14 +18,14 @@ class HuffmanGMR {
         size_t n_encoders;
         string filename;
         string seq;
-
         Node* tree{};
         unordered_map<char, unsigned> freq_map;
         unordered_map<char, vector<bool>*> codes;
-        vector<bool> encoded_seq;
 
         vector<vector<bool>*> encode();
         unordered_map<char, unsigned> generate_frequency();
+
+
 
     public:
         // for the parallel reducer version

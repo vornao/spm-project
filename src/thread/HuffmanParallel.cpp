@@ -18,8 +18,8 @@ HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_encoders, string fil
     this->n_mappers = n_mappers;
     this->n_encoders = n_encoders;
     this->filename = std::move(filename);
+    this->seq = read_file(this->filename);
     this->tree = nullptr;
-
 }
 
 HuffmanParallel::~HuffmanParallel() {
@@ -59,7 +59,8 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 vector<vector<bool>*>HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
     auto size = seq.length();
-    auto buffer = vector<vector<bool>*>(size);
+    auto buffer = vector<vector<bool>*>();
+    buffer.reserve(size);
 
     // split sequence in chunks and delegate the encoding to the mappers.
     auto encode_executor = [&](size_t tid) {
@@ -86,6 +87,7 @@ void HuffmanParallel::run() {
     auto start = chrono::system_clock::now();
     auto freqs = generate_frequency();
     auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start).count();
+    
 
     /** huffman tree generation **/
     auto start_tree_codes = chrono::system_clock::now();

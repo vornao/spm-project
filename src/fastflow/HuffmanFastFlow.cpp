@@ -30,6 +30,7 @@ HuffmanFastFlow::~HuffmanFastFlow() {
 vector<vector<bool>*> HuffmanFastFlow::encode() {
     // create
     auto buffer = vector<vector<bool>*>(seq.length());
+    buffer.reserve(seq.length());
     auto body = [&](const long i){
         auto code = codes[seq[i]];
         buffer[i] = code;
