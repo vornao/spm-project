@@ -10,6 +10,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+#include <optional>
 
 
 #include "../utils/huffman-commons.h"
@@ -31,6 +32,7 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
     unordered_map<char, unsigned> partial_freqs[n_mappers];
     unordered_map<char, unsigned> result;
+
     vector<thread> thread_mappers(n_mappers);
 
     auto map_executor = [&](size_t tid) {
@@ -56,26 +58,29 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-vector<vector<bool>*>HuffmanParallel::encode() {
+vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
     auto size = seq.length();
-    auto buffer = vector<vector<bool>*>();
-    buffer.reserve(size);
-
-    // split sequence in chunks and delegate the encoding to the mappers.
+    auto results = vector<vector<vector<bool>*>*>(n_encoders);
+    
     auto encode_executor = [&](size_t tid) {
-        // make an equal split of the sequence
+        // split the sequence in chunks
         auto start = tid * (size / n_encoders);
         auto end = (tid + 1) * (size / n_encoders);
         if (tid == n_encoders - 1) end = size;
 
-        for (size_t i = start; i < end; i++) buffer[i] = codes[seq[i]];
+        // encode the chunk
+        results[tid] = new vector<vector<bool>*>();
+        results[tid]->reserve(end - start);
+        for (size_t i = start; i < end; i++) {
+            results[tid]->push_back(codes[seq[i]]);
+        }
     };
 
+    // start the threads
     for (size_t i = 0; i < n_encoders; i++) thread_encoder[i] = thread(encode_executor, i);
     for (auto &t: thread_encoder) t.join();
-
-    return buffer;
+    return results;
 }
 
 void HuffmanParallel::run() {

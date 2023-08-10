@@ -4,7 +4,7 @@
 #include "thread/HuffmanParallel.h"
 #include "thread/HuffmanGMR.h"
 #include "sequential/HuffmanSequential.h"
-#include "fastflow/HuffmanFastFlow.h"
+#include "fastflow/HuffmanMonode.h"
 
 using namespace std;
 int main(int argc, char** argv) {
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
     } else if (exec_type == "ff") {
         cout << "Running Huffman FastFlow..." << endl;
-        HuffmanFastFlow huffman_fastflow(n_mappers, n_reducers, n_threads, filename);
+        HuffmanMonode huffman_fastflow(n_mappers, n_threads, filename);
         huffman_fastflow.run();
     }
     else if (exec_type == "map") {

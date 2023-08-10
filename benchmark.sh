@@ -7,7 +7,7 @@
 
 # create a variable with filename
 FILENAME="./files/benchmark.csv"
-INPUT_FILE="./files/input.128M.txt"
+INPUT_FILE="./files/input.64M.txt"
 OUTPUT_FILE="./files/output.bin"
 
 if [ ! -f $FILENAME ]; then
@@ -22,18 +22,20 @@ fi
 
 
 
+
+
+echo "Running benchmark with fastflow"
+for (( i = 2; i < 130; i=i+2 )) do
+    ./build/spm_project $INPUT_FILE $i 1 $i ff
+    rm $OUTPUT_FILE
+    sleep 1
+done
+
 # 1. run the program with different number of threads
 echo "*** Running with different number of threads ***"
 for (( i = 2; i < 130; i=i+2 )) do
     echo "Running with $i threads..."
     ./build/spm_project $INPUT_FILE $i 1 $i map
-    rm $OUTPUT_FILE
-    sleep 1
-done
-
-echo "Running benchmark with fastflow"
-for (( i = 2; i < 130; i=i+2 )) do
-    ./build/spm_project $INPUT_FILE $i 1 $i ff
     rm $OUTPUT_FILE
     sleep 1
 done

@@ -17,8 +17,6 @@ HuffmanFastFlow::HuffmanFastFlow(size_t n_mappers, size_t n_reducers, size_t n_e
     this->n_reducers = n_reducers;
     this->n_encoders = n_encoders;
     this->filename = std::move(filename);
-
-    // read files
     this -> seq = read_file(this->filename);
 }
 
@@ -28,9 +26,7 @@ HuffmanFastFlow::~HuffmanFastFlow() {
 }
 
 vector<vector<bool>*> HuffmanFastFlow::encode() {
-    // create
     auto buffer = vector<vector<bool>*>(seq.length());
-    buffer.reserve(seq.length());
     auto body = [&](const long i){
         auto code = codes[seq[i]];
         buffer[i] = code;
@@ -73,7 +69,6 @@ void HuffmanFastFlow::run() {
     this -> tree = generate_huffman_tree(freqs);
     this -> codes = generate_huffman_codes(tree);
     auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_tree_codes).count();
-
 
     /** encoding **/
     auto start_encoding = chrono::system_clock::now();

@@ -45,6 +45,9 @@ void print_encoded_sequence(std::vector<bool> &encoded);
 
 void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename);
 
+void write_to_file(std::vector<vector<vector<bool>*>*> &encoded, const std::string &filename);
+
+
 std::string decode(const vector<bool> &encoded, const Node *root);
 
 std::string read_file(const std::string &filename);

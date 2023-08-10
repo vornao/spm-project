@@ -23,7 +23,7 @@ class HuffmanParallel {
         unordered_map<char, vector<bool>*> codes;
         vector<bool> encoded_seq;
 
-        vector<vector<bool>*> encode();
+        vector<vector<vector<bool>*>*> encode();
         unordered_map<char, unsigned> generate_frequency();
 
     public:

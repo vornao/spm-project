@@ -37,6 +37,8 @@ add_executable(
     src/sequential/HuffmanSequential.h
     src/fastflow/HuffmanFastFlow.cpp
     src/fastflow/HuffmanFastFlow.h
+    src/fastflow/HuffmanMonode.h
+    src/fastflow/HuffmanMonode.cpp
 )
 
 

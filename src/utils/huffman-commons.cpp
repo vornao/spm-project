@@ -108,7 +108,7 @@ std::string read_file(const std::string &filename) {
     std::ifstream in(filename);
     std::string seq;
 
-    if (!in.is_open()) throw std::runtime_error("Could not open file.");
+    if (!in.is_open()) throw std::runtime_error("Could not open file: " + filename);
     getline(in, seq);
     in.close();
     return seq;
@@ -124,7 +124,7 @@ std::vector<bool> *read_encoded_file(const std::string &filename) {
     std::ifstream in(filename, std::ios::binary);
     auto encoded = new std::vector<bool>();
 
-    if (!in.is_open()) throw std::runtime_error("Could not open file.");
+    if (!in.is_open()) throw std::runtime_error("Could not open file: " + filename);
 
     // first byte is the header, which contains the number of bits to discard from the last byte.
     char header;
@@ -189,7 +189,7 @@ void print_encoded_sequence(std::vector<bool> &encoded) {
  */
 void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename) {
     std::ofstream out(filename, std::ios::binary);
-    if (!out.is_open()) throw std::runtime_error("Could not open file.");
+    if (!out.is_open()) throw std::runtime_error("Could not open file: " + filename);
 
     // convert the sequence of bits to bytes and write them to the file.
     // now we have a vector of vectors of bools, so we need to iterate over the vector of vectors.
@@ -208,6 +208,44 @@ void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &
                 bytes.push_back(byte);
                 byte = 0;
                 bitsWritten = 0;
+            }
+        }
+    }
+
+    // Handle padding
+    if (bitsWritten > 0) bytes.push_back(byte);
+    unsigned char header = 8 - (totalWritten % 8);
+    if (header == 8) header = 0;
+
+    // writing a header which contains the number of bits to discard from the last byte.
+    out << char(header);
+    out.write(reinterpret_cast<const char *>(bytes.data()), (long)bytes.size());
+    out.close();
+}
+
+void write_to_file(std::vector<vector<vector<bool>*>*> &encoded, const std::string &filename){
+    std::ofstream out(filename, std::ios::binary);
+    if (!out.is_open()) throw std::runtime_error("Could not open file: " + filename);
+
+    // convert the sequence of bits to bytes and write them to the file.
+    // now we have a vector of vectors of bools, so we need to iterate over the vector of vectors.
+
+    std::vector<unsigned char> bytes;
+    int bitsWritten = 0;
+    int totalWritten = 0;
+    unsigned char byte = 0;
+
+    for (const auto &chunk : encoded){
+        for (const auto &vec: *chunk) {
+            for (auto bit: *vec) {
+                byte |= (bit << bitsWritten);
+                bitsWritten++;
+                totalWritten++;
+                if (bitsWritten == 8) {
+                    bytes.push_back(byte);
+                    byte = 0;
+                    bitsWritten = 0;
+                }
             }
         }
     }
