@@ -11,6 +11,7 @@
 
 #include "HuffmanMonode.h"
 #include "../utils/huffman-commons.h"
+#include "../utils/utimer.cpp"
 
 using namespace std;
 using namespace ff;
@@ -86,8 +87,8 @@ HuffmanMonode::HuffmanMonode(size_t n_mappers, size_t n_encoders, string filenam
     this->n_mappers = n_mappers;
     this->n_encoders = n_encoders;
     this->filename = std::move(filename);
-    // read file
     this->seq = read_file(this->filename);
+    this->tree = nullptr;
 }
 
 HuffmanMonode::~HuffmanMonode(){
@@ -110,7 +111,7 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
             a[it.first] += it.second;
     };
 
-    auto pf = ParallelForReduce<unordered_map<char, unsigned>>(n_mappers);
+    auto pf = ParallelForReduce<unordered_map<char, unsigned>>((long)n_mappers);
     pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f);
     return res;
 }
@@ -118,10 +119,10 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
 
 vector<vector<vector<bool>*>*> HuffmanMonode::encode(){
     auto results = vector<vector<vector<bool>*>*>(n_encoders);
-    auto emitter = Emitter(n_encoders, codes, seq);
+    auto emitter = Emitter((int)n_encoders, codes, seq);
     auto collector = Collector(&results);
 
-    ff_Farm<Task> farm(Worker, n_encoders);
+    ff_Farm<Task> farm(Worker, (long)n_encoders);
     farm.add_emitter(emitter);
     farm.add_collector(collector);
     farm.run_and_wait_end();
@@ -132,37 +133,50 @@ vector<vector<vector<bool>*>*> HuffmanMonode::encode(){
 void HuffmanMonode::run()
 {
     /** frequency map generation **/
-    auto read_start = chrono::system_clock::now();
-    this->seq = read_file(this->filename);
-    auto time_read = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - read_start).count();
+    long time_read;
+    {
+        utimer timer("Reading file", &time_read);
+        this -> seq = read_file(this->filename);
+    }
 
-    auto start = chrono::system_clock::now();
-    auto freqs = generate_frequency();
-    auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start).count();
+
+    long time_freqs;
+    unordered_map<char, unsigned int> freqs;
+    {
+        utimer timer("Frequency map generation", &time_freqs);
+        freqs = generate_frequency();
+    }
+
 
     /** huffman tree generation **/
-    auto start_tree_codes = chrono::system_clock::now();
-    this->tree = generate_huffman_tree(freqs);
-    this->codes = generate_huffman_codes(tree);
-    auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_tree_codes).count();
+    long time_tree_codes;
+    {
+        utimer timer("Huffman tree generation", &time_tree_codes);
+        this->tree = generate_huffman_tree(freqs);
+        this->codes = generate_huffman_codes(tree);
+    }
+
 
     /** encoding **/
-    cout << "Encoding..." << endl;
-    auto start_encoding = chrono::system_clock::now();
-    auto encoded = encode();
-    auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_encoding).count();
-    cout << "End Encoding..." << endl;
+    long time_encoding;
+    vector<vector<vector<bool>*>*> encoded;
+    {
+        utimer timer("Encoding", &time_encoding);
+        encoded = encode();
+    }
 
-    auto start_writing = chrono::system_clock::now();
-    //write_to_file(encoded, OUTPUT_FILE);
-    auto end_writing = chrono::system_clock::now();
-    auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
+    /** writing **/
+    long time_writing;
+    {
+        utimer timer("Writing", &time_writing);
+        write_to_file(encoded, OUTPUT_FILE);
+    }
 
     // check file and print result in green if correct, red otherwise.
     //if (check_file(OUTPUT_FILE, seq, tree))
-    //    cout << "\033[1;32m> File is correct!\033[0m" << endl;
+    //   cout << "\033[1;32m> File is correct!\033[0m" << endl;
     //else
-     //   cout << "\033[1;31mWrong!\033[0m" << endl;
+    //   cout << "\033[1;31mWrong!\033[0m" << endl;
 
     // sum freqs, tree_codes, encoding
     auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;

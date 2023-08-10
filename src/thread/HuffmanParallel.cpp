@@ -11,6 +11,7 @@
 #include <condition_variable>
 #include <memory>
 #include <optional>
+#include "../utils/utimer.cpp"
 
 
 #include "../utils/huffman-commons.h"
@@ -86,34 +87,46 @@ vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
 void HuffmanParallel::run() {
 
     /** frequency map generation **/
-    auto read_start = chrono::system_clock::now();
-    this -> seq = read_file(this->filename);
-    auto time_read = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - read_start).count();
-    auto start = chrono::system_clock::now();
-    auto freqs = generate_frequency();
-    auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start).count();
-    
+    long time_read;
+    {
+        utimer timer("read time", &time_read);
+        this->seq = read_file(this->filename);
+    }
+
+    long time_freqs;
+    unordered_map<char, unsigned> freqs;
+    {
+        utimer timer("freqs time", &time_freqs);
+        freqs = generate_frequency();
+    }
 
     /** huffman tree generation **/
-    auto start_tree_codes = chrono::system_clock::now();
-    this -> tree = generate_huffman_tree(freqs);
-    this -> codes = generate_huffman_codes(tree);
-    auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_tree_codes).count();
+    long time_tree_codes;
+    {
+        utimer timer("tree codes time", &time_tree_codes);
+        this->tree = generate_huffman_tree(freqs);
+        this->codes = generate_huffman_codes(tree);
+    }
 
 
     /** encoding **/
-    auto start_encoding = chrono::system_clock::now();
-    auto encoded = encode();
-    auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_encoding).count();
+    long time_encoding;
+    vector<vector<vector<bool>*>*> encoded;
+    {
+        utimer timer("encoding time", &time_encoding);
+        encoded = encode();
+    }
 
-    auto start_writing = chrono::system_clock::now();
-    write_to_file(encoded, OUTPUT_FILE);
-    auto end_writing = chrono::system_clock::now();
-    auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
+    /** writing **/
+    long time_writing;
+    {
+        utimer timer("writing time", &time_writing);
+        write_to_file( encoded, OUTPUT_FILE);
+    }
 
     // check file and print result in green if correct, red otherwise.
-    if (check_file(OUTPUT_FILE, seq, tree)) cout << "\033[1;32m> File is correct!\033[0m" << endl;
-    else cout << "\033[1;31mWrong!\033[0m" << endl;
+    //if (check_file(OUTPUT_FILE, seq, tree)) cout << "\033[1;32m> File is correct!\033[0m" << endl;
+    //else cout << "\033[1;31mWrong!\033[0m" << endl;
 
     //sum freqs, tree_codes, encoding
     auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;
