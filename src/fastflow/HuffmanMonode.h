@@ -16,7 +16,6 @@ using namespace std;
 using namespace ff;
 
 
-
 class HuffmanMonode {
 private:
     size_t n_mappers;
@@ -25,17 +24,15 @@ private:
     string seq;
     Node* tree;
     unordered_map<char, unsigned> freq_map;
-    unordered_map<char, vector<bool>*> codes;
-    vector<vector<vector<bool>*>*> encoded;
-
-    vector<vector<vector<bool>*>*> encode();
+    unordered_map<char, code_t*> codes;
+    encoded_t encoded;
+    encoded_t encode();
     unordered_map<char, unsigned> generate_frequency();
 
 public:
     HuffmanMonode(size_t n_mappers, size_t n_encoders, string filename);
     ~HuffmanMonode();
     void run();
-
 };
 
 

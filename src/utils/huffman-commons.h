@@ -13,6 +13,10 @@
 #define BENCHMARK_FILE "./files/benchmark.csv"
 
 using namespace std;
+typedef vector<bool> code_t;
+typedef vector<code_t*> chunk_t;
+typedef vector<chunk_t*> encoded_t;
+
 
 /** Node of the Huffman tree. */
 struct Node {
@@ -45,8 +49,7 @@ void print_encoded_sequence(std::vector<bool> &encoded);
 
 void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename);
 
-void write_to_file(std::vector<vector<vector<bool>*>*> &encoded, const std::string &filename);
-
+void write_to_file(encoded_t &encoded, const std::string &filename);
 
 std::string decode(const vector<bool> &encoded, const Node *root);
 
@@ -60,9 +63,9 @@ unordered_map<char, vector<bool>*> generate_huffman_codes(Node *root);
 
 void free_tree(Node *root);
 
-void free_codes(unordered_map<char, vector<bool>*> &codes);
+void free_codes(unordered_map<char, code_t*> &codes);
 
-void free_encoding(vector<vector<vector<bool>*>*> &encoded);
+void free_encoding(encoded_t &encoded);
 
 void write_benchmark(const long time_read, const long time_freqs, const long time_tree_codes, const long time_encode, const long time_write, const unsigned n_mappers, const unsigned n_reducers, const unsigned n_encoders);
 

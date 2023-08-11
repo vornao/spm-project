@@ -26,9 +26,8 @@ HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_encoders, string fil
 
 HuffmanParallel::~HuffmanParallel() {
     if(tree) free_tree(this->tree);
+    free_encoding(*this->encoded);
     free_codes(this->codes);
-    free_encoding(this->encoded);
-
 }
 
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
@@ -60,10 +59,10 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
-vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
+encoded_t* HuffmanParallel::encode() {
     vector<thread> thread_encoder(n_encoders);
     auto size = seq.length();
-    auto results = vector<vector<vector<bool>*>*>(n_encoders);
+    auto results = new encoded_t (n_encoders);
     
     auto encode_executor = [&](size_t tid) {
         // split the sequence in chunks
@@ -72,10 +71,10 @@ vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
         if (tid == n_encoders - 1) end = size;
 
         // encode the chunk -> this will make memory allocation parallel
-        results[tid] = new vector<vector<bool>*>();
-        results[tid]->reserve(end - start);
+        results->at(tid) = new chunk_t();
+        results->at(tid)->reserve(end - start);
         for (size_t i = start; i < end; i++) {
-            results[tid]->push_back(codes[seq[i]]);
+            results->at(tid)->push_back(codes[seq[i]]);
         }
     };
 
@@ -112,23 +111,22 @@ void HuffmanParallel::run() {
 
     /** encoding **/
     long time_encoding;
-    vector<vector<vector<bool>*>*> encoded;
     {
         utimer timer("encoding time", &time_encoding);
-        encoded = encode();
+        this->encoded = encode();
     }
-
+    cout << "encoded size: " << encoded->size() << endl;
     /** writing **/
     long time_writing;
     {
         utimer timer("writing time", &time_writing);
-        write_to_file( encoded, OUTPUT_FILE);
+        write_to_file(*encoded, OUTPUT_FILE);
     }
 
     //check file and print result in green if correct, red otherwise.
     #ifdef CHKFILE
-        check_file(OUTPUT_FILE, seq, this->tree);
-    #endif
+       check_file(OUTPUT_FILE, seq, this->tree);
+    #endif  
 
     write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, 0, n_encoders);
 }

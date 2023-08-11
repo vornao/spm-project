@@ -258,7 +258,7 @@ void write_to_file(std::vector<std::vector<bool> *> &encoded, const std::string 
     out.close();
 }
 
-void write_to_file(std::vector<vector<vector<bool> *> *> &encoded, const std::string &filename)
+void write_to_file(encoded_t &encoded, const std::string &filename)
 {
     std::ofstream out(filename, std::ios::binary);
     if (!out.is_open())
@@ -304,6 +304,7 @@ void write_to_file(std::vector<vector<vector<bool> *> *> &encoded, const std::st
     out.close();
 }
 
+
 /**
  * Frees the memory allocated for the Huffman tree.
  * @param root the root of the Huffman tree.
@@ -332,18 +333,18 @@ void free_tree(Node *root)
 
 void free_codes(unordered_map<char, vector<bool> *> &codes)
 {
-    for (auto &it : codes)
-    {
+    for (auto &it : codes){
         delete it.second;
     }
 }
 
-void free_encoding(vector<vector<vector<bool> *> *> &encoding)
+void free_encoding(encoded_t &encoding)
 {
-    for (auto &chunk : encoding)
-    {
+    for (auto &chunk : encoding){
         delete chunk;
     }
+
+    delete &encoding;
 }
 
 void write_benchmark(

@@ -20,9 +20,9 @@ class HuffmanParallel {
 
         Node* tree{};
         unordered_map<char, unsigned> freq_map;
-        unordered_map<char, vector<bool>*> codes;
-        vector<vector<vector<bool>*>*> encoded;
-        vector<vector<vector<bool>*>*> encode();
+        unordered_map<char, code_t*> codes;
+        encoded_t* encoded;
+        encoded_t* encode();
         unordered_map<char, unsigned> generate_frequency();
 
     public:
