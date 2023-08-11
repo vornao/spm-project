@@ -20,11 +20,11 @@ struct Task{
     int task_id;
     int n_encoders;
     string* seq;
-    vector<vector<bool> *> *chunk;
-    unordered_map<char, std::vector<bool> *>* codes;
+    chunk_t *chunk;
+    unordered_map<char, code_t* >* codes;
 
     // create constructor
-    Task(int task_id, string* seq, int n_encoders, vector<vector<bool> *> *chunk, unordered_map<char, std::vector<bool> *>* codes){
+    Task(int task_id, string* seq, int n_encoders, chunk_t *chunk, unordered_map<char, code_t* >* codes){
         this->task_id = task_id;
         this->seq = seq;
         this->codes = codes;
@@ -37,13 +37,13 @@ class Emitter : public ff_monode_t<Task>{
 private:
     int n_encoders;
     string seq;
-    unordered_map<char, std::vector<bool> *> codes;
-    vector<vector<vector<bool>*>*> partial_res;
+    unordered_map<char, code_t*> codes;
+    encoded_t partial_res;
 
 public:
     Emitter(
         int n_encoders,
-        unordered_map<char, std::vector<bool> *> codes, const string &seq): n_encoders(n_encoders){
+        unordered_map<char, code_t *> codes, const string &seq): n_encoders(n_encoders){
         this -> seq = seq;
         this->codes = std::move(codes);
     }
@@ -65,7 +65,7 @@ private:
             delete t;
             return GO_ON;
         }
-        explicit Collector(vector<vector<vector<bool>*>*>* partial_res){
+        explicit Collector(encoded_t* partial_res){
             // get pointer to result vector
             this->partial_res = partial_res;
         }
@@ -121,8 +121,8 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
 }
 
 
-vector<vector<vector<bool>*>*> HuffmanMonode::encode(){
-    auto results = vector<vector<vector<bool>*>*>(n_encoders);
+encoded_t HuffmanMonode::encode(){
+    auto results = encoded_t(n_encoders);
     auto emitter = Emitter((int)n_encoders, codes, seq);
     auto collector = Collector(&results);
 
@@ -165,7 +165,7 @@ void HuffmanMonode::run()
 
     /** encoding **/
     long time_encoding;
-    vector<vector<vector<bool>*>*> encoded;
+    encoded_t encoded;
     {
         utimer timer("Encoding", &time_encoding);
         encoded = encode();
