@@ -29,19 +29,15 @@ int main(int argc, char** argv) {
         cout << "Running Huffman Sequential..." << endl;
         HuffmanSequential huffman_sequential(filename);
         huffman_sequential.run();
-    } else if (exec_type == "gmr") {
-        cout << "Running Huffman Google MapReduce..." << endl;
-        HuffmanGMR huffman_gmr(n_mappers, n_reducers, n_threads, filename);
-        huffman_gmr.run();
-
-    } else if (exec_type == "ff") {
+    }
+    else if (exec_type == "ff") {
         cout << "Running Huffman FastFlow..." << endl;
         HuffmanMonode huffman_fastflow(n_mappers, n_threads, filename);
         huffman_fastflow.run();
     }
     else if (exec_type == "map") {
         cout << "Running Huffman Map-Parallel..." << endl;
-        HuffmanParallel huffman_parallel(n_mappers, n_threads, filename);
+        HuffmanParallel huffman_parallel(n_mappers, n_threads, filename, n_reducers);
         huffman_parallel.run();
     } else {
         cout << "Invalid execution type" << endl;

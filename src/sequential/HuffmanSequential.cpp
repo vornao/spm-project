@@ -74,6 +74,6 @@ void HuffmanSequential::run() {
         check_file(OUTPUT_FILE, seq, this->tree);
     #endif
 
-    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, 1, 1, 1);
+    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, 1, 1, 1, "sequential");
 
 }

@@ -11,6 +11,13 @@
 
 #define OUTPUT_FILE "./files/output.bin"
 #define BENCHMARK_FILE "./files/benchmark.csv"
+#define TYPE_SEQ "seq"
+#define TYPE_MAP "map"
+#define TYPE_GMR "gmr"
+#define TYPE_FASTFLOW_PF "ff-pf"
+#define TYPE_FASTFLOW_FARM "ff-farm"
+
+#define BENCHMARK_HEADER "time_read,time_freqs,time_tree_codes,time_encode,time_write,n_mappers,n_reducers,n_encoders\n"
 
 using namespace std;
 /** Single Huffman code. */
@@ -21,7 +28,6 @@ typedef vector<code_t*> chunk_t;
 
 /** Full encoded sequence. (Vector of chunks) */
 typedef vector<chunk_t*> encoded_t;
-
 
 /** Node of the Huffman tree. */
 struct Node {
@@ -74,7 +80,7 @@ void free_codes(unordered_map<char, code_t*> &codes);
 
 void free_encoding(encoded_t &encoded);
 
-void write_benchmark(const long time_read, const long time_freqs, const long time_tree_codes, const long time_encode, const long time_write, const unsigned n_mappers, const unsigned n_reducers, const unsigned n_encoders);
+void write_benchmark(const long time_read, const long time_freqs, const long time_tree_codes, const long time_encode, const long time_write, const unsigned n_mappers, const unsigned n_reducers, const unsigned n_encoders, const string &type);
 
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H

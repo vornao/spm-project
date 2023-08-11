@@ -31,8 +31,6 @@ add_executable(
     src/utils/utimer.cpp
     src/thread/HuffmanParallel.cpp
     src/thread/HuffmanParallel.h
-    src/thread/HuffmanGMR.h
-    src/thread/HuffmanGMR.cpp
     src/sequential/HuffmanSequential.cpp
     src/sequential/HuffmanSequential.h
     src/fastflow/HuffmanFastFlow.cpp

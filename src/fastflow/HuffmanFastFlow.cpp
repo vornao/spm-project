@@ -100,6 +100,6 @@ void HuffmanFastFlow::run() {
         check_file(OUTPUT_FILE, seq, this->tree);
     #endif
 
-    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, n_reducers, n_encoders);
+    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, n_reducers, n_encoders, TYPE_FASTFLOW_PF);
 }
 

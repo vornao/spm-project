@@ -355,7 +355,8 @@ void write_benchmark(
     const long time_writing, 
     unsigned const n_mappers, 
     unsigned const n_reducers, 
-    unsigned const n_encoders
+    unsigned const n_encoders,
+    const string &type
     )
 {
     // sum freqs, tree_codes, encoding
@@ -365,7 +366,17 @@ void write_benchmark(
     // write benchmark file with csv format n_mappers, n_reducers, n_encoders, time_freqs, time_tree_codes, time_encoding, time_writing, total_elapsed_no_rw, total_elapsed_rw
     ofstream benchmark_file;
     benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
-    auto bench_string = to_string(n_mappers) + "," + to_string(n_reducers) + "," + to_string(n_encoders) + "," + to_string(time_freqs) + "," + to_string(time_tree_codes) + "," + to_string(time_encoding) + "," + to_string(time_read) + "," + to_string(time_writing) + "," + to_string(total_elapsed_no_rw) + "," + to_string(total_elapsed_rw) + "," + "fastflow" + "\n";
+    auto bench_string = 
+        to_string(n_mappers) + ","
+        + to_string(n_reducers) + "," 
+        + to_string(n_encoders) + "," 
+        + to_string(time_freqs) + "," 
+        + to_string(time_tree_codes) + "," 
+        + to_string(time_encoding) + "," 
+        + to_string(time_read) + "," 
+        + to_string(time_writing) + "," 
+        + to_string(total_elapsed_no_rw) + "," 
+        + to_string(total_elapsed_rw) + "," + type + "\n";
     benchmark_file << bench_string;
     benchmark_file.close();
 }

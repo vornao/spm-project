@@ -14,6 +14,7 @@ using namespace std;
 class HuffmanParallel {
     private:
         size_t n_mappers;
+        size_t n_reducers;
         size_t n_encoders;
         string filename;
         string seq;
@@ -24,10 +25,11 @@ class HuffmanParallel {
         encoded_t* encoded;
         encoded_t* encode();
         unordered_map<char, unsigned> generate_frequency();
+        unordered_map<char, unsigned> generate_frequency_gmr();
 
     public:
         // for the sequential reducer version
-        HuffmanParallel(size_t n_mappers, size_t n_encoders, string filename);
+        HuffmanParallel(size_t n_mappers, size_t n_encoders, string filename, size_t n_reducers);
         ~HuffmanParallel();
         void run();
 
