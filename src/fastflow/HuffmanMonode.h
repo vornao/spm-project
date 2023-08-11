@@ -25,8 +25,8 @@ private:
     Node* tree;
     unordered_map<char, unsigned> freq_map;
     unordered_map<char, code_t*> codes;
-    encoded_t encoded;
-    encoded_t encode();
+    encoded_t *encoded;
+    encoded_t *encode();
     unordered_map<char, unsigned> generate_frequency();
 
 public:

@@ -72,7 +72,6 @@ private:
 };
 
 Task* Worker(Task* t, ff::ff_node* nn){
-   
     auto n_encoders = t->n_encoders;
     auto tid   = t->task_id;
     auto size  = t->seq->length();
@@ -101,8 +100,9 @@ HuffmanMonode::HuffmanMonode(size_t n_mappers, size_t n_encoders, string filenam
 
 HuffmanMonode::~HuffmanMonode(){
     free_tree(this->tree);
+    free_encoding(*this->encoded);
     free_codes(this->codes);
-    free_encoding(this->encoded);
+    
 }
 
 unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
@@ -123,10 +123,10 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
 }
 
 
-encoded_t HuffmanMonode::encode(){
-    auto results = encoded_t(n_encoders);
+encoded_t* HuffmanMonode::encode(){
+    auto results = new encoded_t(n_encoders);
     auto emitter = Emitter((int)n_encoders, codes, seq);
-    auto collector = Collector(&results);
+    auto collector = Collector(results);
 
     // create FF farm with n_encoders workers
     ff_Farm<Task> farm(Worker, (long)n_encoders);
@@ -167,17 +167,16 @@ void HuffmanMonode::run()
 
     /** encoding **/
     long time_encoding;
-    encoded_t encoded;
     {
         utimer timer("Encoding", &time_encoding);
-        encoded = encode();
+        this->encoded = encode();
     }
 
     /** writing **/
     long time_writing;
     {
         utimer timer("Writing", &time_writing);
-        write_to_file(encoded, OUTPUT_FILE);
+        write_to_file(*encoded, OUTPUT_FILE);
     }
 
     //check file and print result in green if correct, red otherwise.

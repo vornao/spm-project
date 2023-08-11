@@ -21,9 +21,6 @@ if [ ! -f $OUTPUT_FILE ]; then
 fi
 
 
-
-
-
 echo "Running benchmark with fastflow"
 for (( i = 2; i < 130; i=i+2 )) do
     ./build/spm_project $INPUT_FILE $i 1 $i ff
@@ -31,20 +28,19 @@ for (( i = 2; i < 130; i=i+2 )) do
     sleep 1
 done
 
-# 1. run the program with different number of threads
+
 echo "*** Running with different number of threads ***"
 for (( i = 2; i < 130; i=i+2 )) do
     echo "Running with $i threads..."
-    ./build/spm_project $INPUT_FILE $i 1 $i map
+    ./build/spm_project $INPUT_FILE $i 0 $i map
     rm $OUTPUT_FILE
     sleep 1
 done
 
-<<COMMENT
 
 for (( i = 2; i < 130; i=i+2 )) do
     echo "Running with $i threads... and 2 reducers"
-    ./build/spm_project $INPUT_FILE $i 2 $i gmr
+    ./build/spm_project $INPUT_FILE $i 2 $i map
     rm $OUTPUT_FILE
     sleep 1
 done
@@ -76,6 +72,5 @@ for (( i = 2; i < 130; i=i+2 )) do
     rm $OUTPUT_FILE
     sleep 1
 done
-COMMENT
 
 

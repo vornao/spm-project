@@ -2,7 +2,6 @@
 #include <string>
 #include <memory>
 #include "thread/HuffmanParallel.h"
-#include "thread/HuffmanGMR.h"
 #include "sequential/HuffmanSequential.h"
 #include "fastflow/HuffmanMonode.h"
 
