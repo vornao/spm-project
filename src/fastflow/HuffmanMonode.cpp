@@ -62,17 +62,23 @@ private:
     public:
         Task *svc(Task *t) override{
             partial_res->at(t->task_id) = t->chunk;
+            delete t;
             return GO_ON;
         }
         explicit Collector(vector<vector<vector<bool>*>*>* partial_res){
+            // get pointer to result vector
             this->partial_res = partial_res;
         }
 };
 
-Task *Worker(Task* t, ff::ff_node* nn){
+Task* Worker(Task* t, ff::ff_node* nn){
+    auto tid = t->task_id;
+    auto n_encoders = t->n_encoders;\
+
     auto size = t->seq->length();
-    auto start = t->task_id * (size / t->n_encoders);
-    auto stop = (t->task_id == t->n_encoders - 1) ? size : (t->task_id + 1) * (size / t->n_encoders);
+    auto start = tid * (size /n_encoders);
+    auto stop = (tid == n_encoders - 1) ? size : (tid+ 1) * (size / n_encoders);
+    
     t->chunk = new vector<vector<bool> *>();
     t->chunk->reserve(stop - start);
 
@@ -125,7 +131,6 @@ vector<vector<vector<bool>*>*> HuffmanMonode::encode(){
     farm.add_emitter(emitter);
     farm.add_collector(collector);
     farm.run_and_wait_end();
-
 
     return results;
 }
