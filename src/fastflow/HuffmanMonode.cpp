@@ -20,7 +20,7 @@ struct Task{
     int task_id;
     int n_encoders;
     string* seq;
-    chunk_t *chunk;
+    chunk_t* chunk;
     unordered_map<char, code_t* >* codes;
 
     // create constructor
@@ -43,7 +43,7 @@ private:
 public:
     Emitter(
         int n_encoders,
-        unordered_map<char, code_t *> codes, const string &seq): n_encoders(n_encoders){
+        unordered_map<char, code_t* > codes, const string &seq): n_encoders(n_encoders){
         this -> seq = seq;
         this->codes = std::move(codes);
     }
@@ -58,9 +58,9 @@ public:
 
 class Collector : public ff_node_t<Task>{
 private:
-    vector<vector<vector<bool>*>*>* partial_res;
+    encoded_t* partial_res;
     public:
-        Task *svc(Task *t) override{
+        Task* svc(Task* t) override{
             partial_res->at(t->task_id) = t->chunk;
             delete t;
             return GO_ON;
@@ -72,18 +72,20 @@ private:
 };
 
 Task* Worker(Task* t, ff::ff_node* nn){
-    auto tid = t->task_id;
-    auto n_encoders = t->n_encoders;\
-
-    auto size = t->seq->length();
+   
+    auto n_encoders = t->n_encoders;
+    auto tid   = t->task_id;
+    auto size  = t->seq->length();
     auto start = tid * (size /n_encoders);
-    auto stop = (tid == n_encoders - 1) ? size : (tid+ 1) * (size / n_encoders);
+    auto stop  = (tid == n_encoders - 1) ? size : (tid+ 1) * (size / n_encoders);
     
-    t->chunk = new vector<vector<bool> *>();
+    // allocating memory for chunk -> make memory allocation parallel time.
+    t->chunk = new chunk_t();
     t->chunk->reserve(stop - start);
 
     for (auto i = start; i < stop; i++){
-        t->chunk->push_back(t->codes->at(t->seq->at(i)));
+        auto seq = t->seq->at(i);
+        t->chunk->push_back(t->codes->at(seq));
     }
     return t;
 }

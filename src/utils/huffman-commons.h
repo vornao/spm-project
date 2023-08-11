@@ -13,8 +13,13 @@
 #define BENCHMARK_FILE "./files/benchmark.csv"
 
 using namespace std;
+/** Single Huffman code. */
 typedef vector<bool> code_t;
+
+/** Chunk of encoded sequence */
 typedef vector<code_t*> chunk_t;
+
+/** Full encoded sequence. (Vector of chunks) */
 typedef vector<chunk_t*> encoded_t;
 
 
@@ -39,17 +44,6 @@ struct Compare {
     }
 };
 
-bool check_file(const string &filename, const string &seq, const Node *root);
-
-void free_tree(Node *root);
-
-void print_codes(std::unordered_map<char, std::vector<bool>> &codes);
-
-void print_encoded_sequence(std::vector<bool> &encoded);
-
-void write_to_file(std::vector<std::vector<bool>*> &encoded, const std::string &filename);
-
-void write_to_file(encoded_t &encoded, const std::string &filename);
 
 std::string decode(const vector<bool> &encoded, const Node *root);
 
@@ -60,6 +54,19 @@ std::vector<bool> *read_encoded_file(const std::string &filename);
 Node *generate_huffman_tree(const unordered_map<char, unsigned> &freqs);
 
 unordered_map<char, vector<bool>*> generate_huffman_codes(Node *root);
+
+bool check_file(const string &filename, const string &seq, const Node *root);
+
+void free_tree(Node *root);
+
+void print_codes(std::unordered_map<char, code_t> &codes);
+
+void print_encoded_sequence(code_t &encoded);
+
+// legacy version that uses a vector of codes instead of a vector of chunks
+void write_to_file(std::vector<code_t*> &encoded, const std::string &filename);
+
+void write_to_file(encoded_t &encoded, const std::string &filename);
 
 void free_tree(Node *root);
 
