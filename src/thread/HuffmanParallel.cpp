@@ -27,13 +27,14 @@ HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_encoders, string fil
 HuffmanParallel::~HuffmanParallel() {
     if(tree) free_tree(this->tree);
     free_codes(this->codes);
+    free_encoding(this->encoded);
+
 }
 
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
     unordered_map<char, unsigned> partial_freqs[n_mappers];
     unordered_map<char, unsigned> result;
-
     vector<thread> thread_mappers(n_mappers);
 
     auto map_executor = [&](size_t tid) {
@@ -70,7 +71,7 @@ vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
         auto end = (tid + 1) * (size / n_encoders);
         if (tid == n_encoders - 1) end = size;
 
-        // encode the chunk
+        // encode the chunk -> this will make memory allocation parallel
         results[tid] = new vector<vector<bool>*>();
         results[tid]->reserve(end - start);
         for (size_t i = start; i < end; i++) {
@@ -78,7 +79,7 @@ vector<vector<vector<bool>*>*>HuffmanParallel::encode() {
         }
     };
 
-    // start the threads
+    // start and join the threads
     for (size_t i = 0; i < n_encoders; i++) thread_encoder[i] = thread(encode_executor, i);
     for (auto &t: thread_encoder) t.join();
     return results;
@@ -124,20 +125,12 @@ void HuffmanParallel::run() {
         write_to_file( encoded, OUTPUT_FILE);
     }
 
-    // check file and print result in green if correct, red otherwise.
-    //if (check_file(OUTPUT_FILE, seq, tree)) cout << "\033[1;32m> File is correct!\033[0m" << endl;
-    //else cout << "\033[1;31mWrong!\033[0m" << endl;
+    //check file and print result in green if correct, red otherwise.
+    #ifdef CHKFILE
+        check_file(OUTPUT_FILE, seq, this->tree);
+    #endif
 
-    //sum freqs, tree_codes, encoding
-    auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;
-    auto total_elapsed_rw = total_elapsed_no_rw + time_writing + time_read;
-
-    // write benchmark file with csv format n_mappers, n_reducers, n_encoders, time_freqs, time_tree_codes, time_encoding, time_writing, total_elapsed_no_rw, total_elapsed_rw
-    ofstream benchmark_file;
-    benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
-    auto bench_string = to_string(n_mappers) + "," + "0" + "," + to_string(n_encoders) + "," + to_string(time_freqs) + "," + to_string(time_tree_codes) + "," + to_string(time_encoding) + "," + to_string(time_read) + "," + to_string(time_writing) + "," + to_string(total_elapsed_no_rw) + "," + to_string(total_elapsed_rw) + "," + "thread" + "\n";
-    benchmark_file << bench_string;
-    benchmark_file.close();
+    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, 0, n_encoders);
 }
 
 

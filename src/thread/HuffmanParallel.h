@@ -21,15 +21,13 @@ class HuffmanParallel {
         Node* tree{};
         unordered_map<char, unsigned> freq_map;
         unordered_map<char, vector<bool>*> codes;
-        vector<bool> encoded_seq;
-
+        vector<vector<vector<bool>*>*> encoded;
         vector<vector<vector<bool>*>*> encode();
         unordered_map<char, unsigned> generate_frequency();
 
     public:
         // for the sequential reducer version
         HuffmanParallel(size_t n_mappers, size_t n_encoders, string filename);
-
         ~HuffmanParallel();
         void run();
 

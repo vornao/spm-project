@@ -23,8 +23,8 @@ class HuffmanGMR {
         unordered_map<char, vector<bool>*> codes;
 
         vector<vector<bool>*> encode();
+        vector<vector<bool>*> encoded_seq;
         unordered_map<char, unsigned> generate_frequency();
-
 
 
     public:

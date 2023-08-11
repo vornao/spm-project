@@ -62,6 +62,9 @@ void free_tree(Node *root);
 
 void free_codes(unordered_map<char, vector<bool>*> &codes);
 
+void free_encoding(vector<vector<vector<bool>*>*> &encoded);
+
+void write_benchmark(const long time_read, const long time_freqs, const long time_tree_codes, const long time_encode, const long time_write, const unsigned n_mappers, const unsigned n_reducers, const unsigned n_encoders);
 
 
 #endif //SPM_PROJECT_HUFFMAN_COMMONS_H

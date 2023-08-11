@@ -20,7 +20,7 @@ private:
 
     unordered_map<char, unsigned> freq_map;
     unordered_map<char, vector<bool>*> codes;
-    unique_ptr<vector<bool>*> encoded_seq;
+    vector<vector<bool> *> encoded_seq;
 
     Node* tree = nullptr;
     vector<vector<bool>*> encode();

@@ -9,6 +9,7 @@
 
 #include "HuffmanFastFlow.h"
 #include "../utils/huffman-commons.h"
+#include "../utils/utimer.cpp"
 
 using namespace ff;
 
@@ -56,43 +57,49 @@ unordered_map<char, unsigned int> HuffmanFastFlow::generate_frequency() {
 
 void HuffmanFastFlow::run() {
     /** frequency map generation **/
-    auto read_start = chrono::system_clock::now();
-    this -> seq = read_file(this->filename);
-    auto time_read = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - read_start).count();
+    long time_read;
+    {
+        utimer timer("Reading file", &time_read);
+        this -> seq = read_file(this->filename);
+    }
 
-    auto start = chrono::system_clock::now();
-    auto freqs = generate_frequency();
-    auto time_freqs = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start).count();
+
+    long time_freqs;
+    unordered_map<char, unsigned int> freqs;
+    {
+        utimer timer("Frequency generation", &time_freqs);
+        freqs = generate_frequency();
+    }
+
 
     /** huffman tree generation **/
-    auto start_tree_codes = chrono::system_clock::now();
-    this -> tree = generate_huffman_tree(freqs);
-    this -> codes = generate_huffman_codes(tree);
-    auto time_tree_codes = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_tree_codes).count();
+    long time_tree_codes;
+    {
+        utimer timer("Tree and codes generation", &time_tree_codes);
+        this -> tree = generate_huffman_tree(freqs);
+        this -> codes = generate_huffman_codes(tree);
+    }
 
-    /** encoding **/
-    auto start_encoding = chrono::system_clock::now();
-    auto encoded = encode();
-    auto time_encoding = chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now() - start_encoding).count();
 
-    auto start_writing = chrono::system_clock::now();
-    write_to_file(encoded, OUTPUT_FILE);
-    auto end_writing = chrono::system_clock::now();
-    auto time_writing = chrono::duration_cast<chrono::microseconds>(end_writing - start_writing).count();
+    long time_encoding;
+    vector<vector<bool>*> encoded;
+    {
+        utimer timer("Encoding", &time_encoding);
+        encoded = encode();
+    }
 
-    // check file and print result in green if correct, red otherwise.
-    if (check_file(OUTPUT_FILE, seq, tree)) cout << "\033[1;32m> File is correct!\033[0m" << endl;
-    else cout << "\033[1;31mWrong!\033[0m" << endl;
+    long time_writing;
+    {
+        utimer timer("Writing file", &time_writing);
+        write_to_file(encoded, OUTPUT_FILE);
+    }
 
-    //sum freqs, tree_codes, encoding
-    auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;
-    auto total_elapsed_rw = total_elapsed_no_rw + time_writing + time_read;
 
-    // write benchmark file with csv format n_mappers, n_reducers, n_encoders, time_freqs, time_tree_codes, time_encoding, time_writing, total_elapsed_no_rw, total_elapsed_rw
-    ofstream benchmark_file;
-    benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
-    auto bench_string = to_string(n_mappers) + "," + to_string(n_reducers) + "," + to_string(n_encoders) + "," + to_string(time_freqs) + "," + to_string(time_tree_codes) + "," + to_string(time_encoding) + "," + to_string(time_read) + "," + to_string(time_writing) + "," + to_string(total_elapsed_no_rw) + "," + to_string(total_elapsed_rw) + "," + "fastflow" + "\n";
-    benchmark_file << bench_string;
-    benchmark_file.close();
+    //check file and print result in green if correct, red otherwise.
+    #ifdef CHKFILE
+        check_file(OUTPUT_FILE, seq, this->tree);
+    #endif
+
+    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, n_reducers, n_encoders);
 }
 

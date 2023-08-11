@@ -92,10 +92,9 @@ HuffmanMonode::HuffmanMonode(size_t n_mappers, size_t n_encoders, string filenam
 }
 
 HuffmanMonode::~HuffmanMonode(){
-    delete this->tree;
-    for (auto &pair : this->codes){
-        delete pair.second;
-    }
+    free_tree(this->tree);
+    free_codes(this->codes);
+    free_encoding(this->encoded);
 }
 
 unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
@@ -105,14 +104,13 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
         tempsum[seq[i]]++;
     };
 
-    auto red_f = [&](unordered_map<char, unsigned> &a, const unordered_map<char, unsigned> &b)
-    {
+    auto red_f = [&](unordered_map<char, unsigned> &a, const unordered_map<char, unsigned> &b){
         for (auto &it : b)
             a[it.first] += it.second;
     };
 
     auto pf = ParallelForReduce<unordered_map<char, unsigned>>((long)n_mappers);
-    pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f);
+    pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f, n_mappers);
     return res;
 }
 
@@ -122,10 +120,13 @@ vector<vector<vector<bool>*>*> HuffmanMonode::encode(){
     auto emitter = Emitter((int)n_encoders, codes, seq);
     auto collector = Collector(&results);
 
+    // create FF farm with n_encoders workers
     ff_Farm<Task> farm(Worker, (long)n_encoders);
     farm.add_emitter(emitter);
     farm.add_collector(collector);
     farm.run_and_wait_end();
+
+
     return results;
 }
 
@@ -172,20 +173,10 @@ void HuffmanMonode::run()
         write_to_file(encoded, OUTPUT_FILE);
     }
 
-    // check file and print result in green if correct, red otherwise.
-    //if (check_file(OUTPUT_FILE, seq, tree))
-    //   cout << "\033[1;32m> File is correct!\033[0m" << endl;
-    //else
-    //   cout << "\033[1;31mWrong!\033[0m" << endl;
+    //check file and print result in green if correct, red otherwise.
+    #ifdef CHKFILE
+        check_file(OUTPUT_FILE, seq, this->tree);
+    #endif
 
-    // sum freqs, tree_codes, encoding
-    auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;
-    auto total_elapsed_rw = total_elapsed_no_rw + time_writing + time_read;
-
-    // write benchmark file with csv format n_mappers, n_reducers, n_encoders, time_freqs, time_tree_codes, time_encoding, time_writing, total_elapsed_no_rw, total_elapsed_rw
-    ofstream benchmark_file;
-    benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
-    auto bench_string = to_string(n_mappers) + "," + to_string(0) + "," + to_string(n_encoders) + "," + to_string(time_freqs) + "," + to_string(time_tree_codes) + "," + to_string(time_encoding) + "," + to_string(time_read) + "," + to_string(time_writing) + "," + to_string(total_elapsed_no_rw) + "," + to_string(total_elapsed_rw) + "," + "fastflow" + "\n";
-    benchmark_file << bench_string;
-    benchmark_file.close();
+    write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, 0, n_encoders);
 }
