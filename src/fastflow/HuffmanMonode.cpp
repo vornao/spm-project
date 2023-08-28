@@ -99,10 +99,9 @@ HuffmanMonode::HuffmanMonode(size_t n_mappers, size_t n_encoders, string filenam
 }
 
 HuffmanMonode::~HuffmanMonode(){
-    free_tree(this->tree);
+    if(tree) free_tree(this->tree);
     free_encoding(*this->encoded);
     free_codes(this->codes);
-    
 }
 
 unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
@@ -119,6 +118,7 @@ unordered_map<char, unsigned int> HuffmanMonode::generate_frequency(){
 
     auto pf = ParallelForReduce<unordered_map<char, unsigned>>((long)n_mappers);
     pf.parallel_reduce(res, unordered_map<char, unsigned>(), 0, (long)seq.size(), 1, map_f, red_f, n_mappers);
+    
     return res;
 }
 

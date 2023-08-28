@@ -219,7 +219,7 @@ void HuffmanParallel::run() {
     #ifdef CHKFILE
        check_file(OUTPUT_FILE, seq, this->tree);
     #endif  
-    auto type = n_reducers > 0 ? TYPE_GMR : TYPE_MAP;
+    auto type = n_reducers > 0 ? TYPE_GMR + to_string(n_reducers): TYPE_MAP;
     write_benchmark(time_read, time_freqs, time_tree_codes, time_encoding, time_writing, n_mappers, n_reducers, n_encoders, type);
 }
 

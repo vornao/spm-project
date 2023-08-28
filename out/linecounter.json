@@ -1,0 +1,1076 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "/Users/vornao/Desktop/unipi/SPM/spm-project",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2023-08-11 17:59:57",
+            "filesum": 154,
+            "codesum": 26879,
+            "commentsum": 756,
+            "blanksum": 2134,
+            "statistics": {
+                ".h": {
+                    "code": 157,
+                    "comment": 23,
+                    "blank": 68
+                },
+                ".cpp": {
+                    "code": 2033,
+                    "comment": 262,
+                    "blank": 487
+                },
+                "": {
+                    "code": 702,
+                    "comment": 2,
+                    "blank": 227
+                },
+                ".xml": {
+                    "code": 245,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".json": {
+                    "code": 3839,
+                    "comment": 0,
+                    "blank": 22
+                },
+                ".cmake": {
+                    "code": 444,
+                    "comment": 0,
+                    "blank": 226
+                },
+                ".txt": {
+                    "code": 357,
+                    "comment": 322,
+                    "blank": 148
+                },
+                ".iml": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".marks": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".c": {
+                    "code": 1316,
+                    "comment": 122,
+                    "blank": 296
+                },
+                ".check_cache": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".yaml": {
+                    "code": 509,
+                    "comment": 20,
+                    "blank": 25
+                },
+                ".d": {
+                    "code": 9200,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".make": {
+                    "code": 3088,
+                    "comment": 0,
+                    "blank": 564
+                },
+                ".ts": {
+                    "code": 4,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".internal": {
+                    "code": 2465,
+                    "comment": 0,
+                    "blank": 8
+                },
+                ".sh": {
+                    "code": 58,
+                    "comment": 5,
+                    "blank": 19
+                },
+                ".csv": {
+                    "code": 1526,
+                    "comment": 0,
+                    "blank": 1
+                },
+                ".log": {
+                    "code": 139,
+                    "comment": 0,
+                    "blank": 26
+                },
+                ".cbp": {
+                    "code": 124,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".ipynb": {
+                    "code": 667,
+                    "comment": 0,
+                    "blank": 17
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": ".idea/.gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".idea/.name"
+                },
+                {
+                    "blank": 0,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": ".idea/inspectionProfiles/Project_Default.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": ".idea/misc.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": ".idea/modules.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".idea/spm-project.iml"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": ".idea/vcs.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 200,
+                    "comment": 0,
+                    "filename": ".idea/workspace.xml"
+                },
+                {
+                    "blank": 19,
+                    "code": 55,
+                    "comment": 5,
+                    "filename": "benchmark.sh"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "bld.sh"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/query/client-vscode/query.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 1227,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/cache-v2-bc81035ae8085cc3424b.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 141,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/cmakeFiles-v1-32ab49ca89ab6b7c3a3a.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/codemodel-v2-15226b977100610237ed.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 132,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/index-2023-08-11T14-56-20-0143.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 221,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/target-spm_project-Debug-2e4a62d4864b67ab4526.json"
+                },
+                {
+                    "blank": 10,
+                    "code": 96,
+                    "comment": 0,
+                    "filename": "build/.cmake/api/v1/reply/toolchains-v1-2a9b683d033c92ecbc4c.json"
+                },
+                {
+                    "blank": 7,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "build/cmake_install.cmake"
+                },
+                {
+                    "blank": 70,
+                    "code": 153,
+                    "comment": 162,
+                    "filename": "build/CMakeCache.txt"
+                },
+                {
+                    "blank": 14,
+                    "code": 59,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/3.26.3/CMakeCCompiler.cmake"
+                },
+                {
+                    "blank": 16,
+                    "code": 68,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/3.26.3/CMakeCXXCompiler.cmake"
+                },
+                {
+                    "filename": "build/CMakeFiles/3.26.3/CMakeDetermineCompilerABI_C.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "build/CMakeFiles/3.26.3/CMakeDetermineCompilerABI_CXX.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/3.26.3/CMakeSystem.cmake"
+                },
+                {
+                    "filename": "build/CMakeFiles/3.26.3/CompilerIdC/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 148,
+                    "code": 657,
+                    "comment": 61,
+                    "filename": "build/CMakeFiles/3.26.3/CompilerIdC/CMakeCCompilerId.c"
+                },
+                {
+                    "filename": "build/CMakeFiles/3.26.3/CompilerIdCXX/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 152,
+                    "code": 640,
+                    "comment": 63,
+                    "filename": "build/CMakeFiles/3.26.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/cmake.check_cache"
+                },
+                {
+                    "blank": 25,
+                    "code": 509,
+                    "comment": 20,
+                    "filename": "build/CMakeFiles/CMakeConfigureLog.yaml"
+                },
+                {
+                    "blank": 4,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/CMakeDirectoryInformation.cmake"
+                },
+                {
+                    "blank": 32,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/Makefile.cmake"
+                },
+                {
+                    "blank": 31,
+                    "code": 81,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/Makefile2"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/progress.marks"
+                },
+                {
+                    "blank": 22,
+                    "code": 47,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/build.make"
+                },
+                {
+                    "blank": 17,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/cmake_clean.cmake"
+                },
+                {
+                    "blank": 8,
+                    "code": 2465,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/compiler_depend.internal"
+                },
+                {
+                    "blank": 508,
+                    "code": 2958,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/compiler_depend.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/compiler_depend.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/depend.make"
+                },
+                {
+                    "blank": 12,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/DependInfo.cmake"
+                },
+                {
+                    "blank": 5,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/flags.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/link.txt"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/progress.make"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/fastflow/HuffmanFastFlow.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 486,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/fastflow/HuffmanFastFlow.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/fastflow/HuffmanMonode.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 482,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/fastflow/HuffmanMonode.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/main.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 459,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/main.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/sequential/HuffmanSequential.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 270,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/sequential/HuffmanSequential.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/thread/HuffmanGMR.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 279,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/thread/HuffmanGMR.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/thread/HuffmanParallel.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 280,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/thread/HuffmanParallel.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/utils/huffman-commons.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 251,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/utils/huffman-commons.cpp.o.d"
+                },
+                {
+                    "filename": "build/CMakeFiles/spm_project.dir/src/utils/utimer.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 228,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/spm_project.dir/src/utils/utimer.cpp.o.d"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "build/CMakeFiles/TargetDirectories.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 44,
+                    "comment": 0,
+                    "filename": "build/compile_commands.json"
+                },
+                {
+                    "blank": 82,
+                    "code": 261,
+                    "comment": 1,
+                    "filename": "build/Makefile"
+                },
+                {
+                    "filename": "build/spm_project",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/query/cache-v2"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/query/codemodel-v2"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/query/toolchains-v1"
+                },
+                {
+                    "blank": 0,
+                    "code": 1247,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/cache-v2-f5172f0bb98273433e2d.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 176,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-858017f45328212a518b.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-047b370a9fd5db252c59.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 108,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/index-2023-08-11T14-37-05-0426.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 224,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/target-spm_project-Debug-fceb9da19971f8c52f9d.json"
+                },
+                {
+                    "blank": 8,
+                    "code": 74,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-0b2ab1b5733a52935e7e.json"
+                },
+                {
+                    "blank": 7,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/cmake_install.cmake"
+                },
+                {
+                    "blank": 70,
+                    "code": 152,
+                    "comment": 160,
+                    "filename": "cmake-build-debug/CMakeCache.txt"
+                },
+                {
+                    "blank": 17,
+                    "code": 55,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CMakeCCompiler.cmake"
+                },
+                {
+                    "blank": 19,
+                    "code": 64,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CMakeCXXCompiler.cmake"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_C.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_CXX.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CMakeSystem.cmake"
+                },
+                {
+                    "blank": 148,
+                    "code": 659,
+                    "comment": 61,
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.c"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 152,
+                    "code": 642,
+                    "comment": 63,
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/clion-Debug-log.txt"
+                },
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/clion-environment.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/cmake.check_cache"
+                },
+                {
+                    "blank": 4,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/CMakeError.log"
+                },
+                {
+                    "blank": 26,
+                    "code": 136,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/CMakeOutput.log"
+                },
+                {
+                    "blank": 38,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/Makefile.cmake"
+                },
+                {
+                    "blank": 31,
+                    "code": 81,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/Makefile2"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/progress.marks"
+                },
+                {
+                    "blank": 22,
+                    "code": 47,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/build.make"
+                },
+                {
+                    "blank": 17,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/cmake_clean.cmake"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/compiler_depend.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/compiler_depend.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/depend.make"
+                },
+                {
+                    "blank": 12,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/DependInfo.cmake"
+                },
+                {
+                    "blank": 5,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/flags.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/link.txt"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/progress.make"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/fastflow/HuffmanFastFlow.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 903,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/fastflow/HuffmanFastFlow.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/fastflow/HuffmanMonode.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 900,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/fastflow/HuffmanMonode.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/main.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 902,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/main.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/sequential/HuffmanSequential.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 756,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/sequential/HuffmanSequential.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/thread/HuffmanGMR.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 758,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/thread/HuffmanGMR.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/thread/HuffmanParallel.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 758,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/thread/HuffmanParallel.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/utils/huffman-commons.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 754,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/utils/huffman-commons.cpp.o.d"
+                },
+                {
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/utils/utimer.cpp.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 734,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/spm_project.dir/src/utils/utimer.cpp.o.d"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/CMakeFiles/TargetDirectories.txt"
+                },
+                {
+                    "blank": 82,
+                    "code": 261,
+                    "comment": 1,
+                    "filename": "cmake-build-debug/Makefile"
+                },
+                {
+                    "filename": "cmake-build-debug/spm_project",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 124,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/spm_project.cbp"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "cmake-build-debug/Testing/Temporary/LastTest.log"
+                },
+                {
+                    "blank": 7,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "CMakeLists.txt"
+                },
+                {
+                    "blank": 1,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "files/benchmark.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "files/input.32M.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "files/input.5M.txt"
+                },
+                {
+                    "filename": "files/output.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 108,
+                    "comment": 0,
+                    "filename": "python/benchmark.128M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 129,
+                    "comment": 0,
+                    "filename": "python/benchmark.20M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 48,
+                    "comment": 0,
+                    "filename": "python/benchmark.32M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 117,
+                    "comment": 0,
+                    "filename": "python/benchmark.40M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 257,
+                    "comment": 0,
+                    "filename": "python/benchmark.5M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 449,
+                    "comment": 0,
+                    "filename": "python/benchmark.64M.csv"
+                },
+                {
+                    "blank": 17,
+                    "code": 667,
+                    "comment": 0,
+                    "filename": "python/benchmark.ipynb"
+                },
+                {
+                    "blank": 0,
+                    "code": 392,
+                    "comment": 0,
+                    "filename": "python/benchmark160M.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "python/benchmark20M.nop.csv"
+                },
+                {
+                    "filename": "spm_project",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 24,
+                    "code": 75,
+                    "comment": 6,
+                    "filename": "src/fastflow/HuffmanFastFlow.cpp"
+                },
+                {
+                    "blank": 12,
+                    "code": 26,
+                    "comment": 4,
+                    "filename": "src/fastflow/HuffmanFastFlow.h"
+                },
+                {
+                    "blank": 34,
+                    "code": 145,
+                    "comment": 9,
+                    "filename": "src/fastflow/HuffmanMonode.cpp"
+                },
+                {
+                    "blank": 9,
+                    "code": 28,
+                    "comment": 3,
+                    "filename": "src/fastflow/HuffmanMonode.h"
+                },
+                {
+                    "blank": 5,
+                    "code": 38,
+                    "comment": 3,
+                    "filename": "src/main.cpp"
+                },
+                {
+                    "blank": 16,
+                    "code": 55,
+                    "comment": 8,
+                    "filename": "src/sequential/HuffmanSequential.cpp"
+                },
+                {
+                    "blank": 11,
+                    "code": 24,
+                    "comment": 4,
+                    "filename": "src/sequential/HuffmanSequential.h"
+                },
+                {
+                    "blank": 40,
+                    "code": 157,
+                    "comment": 31,
+                    "filename": "src/thread/HuffmanParallel.cpp"
+                },
+                {
+                    "blank": 8,
+                    "code": 26,
+                    "comment": 5,
+                    "filename": "src/thread/HuffmanParallel.h"
+                },
+                {
+                    "blank": 53,
+                    "code": 254,
+                    "comment": 75,
+                    "filename": "src/utils/huffman-commons.cpp"
+                },
+                {
+                    "blank": 28,
+                    "code": 53,
+                    "comment": 7,
+                    "filename": "src/utils/huffman-commons.h"
+                },
+                {
+                    "blank": 11,
+                    "code": 27,
+                    "comment": 4,
+                    "filename": "src/utils/utimer.cpp"
+                }
+            ]
+        }
+    ]
+}

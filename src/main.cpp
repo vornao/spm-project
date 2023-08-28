@@ -8,10 +8,6 @@
 using namespace std;
 int main(int argc, char** argv) {
     // take filename, nmappers, nreducers, nthreads from command line
-    if (argc != 6) {
-        cout << "Program usage: " << " ./spm_project <filename> <nmappers> <nreducers> <nthreads> <[seq|gmr|ff|>" << endl;
-        return 1;
-    }
 
     string filename = argv[1];
     auto n_mappers = stoi(argv[2]);

@@ -13,7 +13,6 @@ HuffmanSequential::HuffmanSequential(const string &filename) {
     this->filename = filename;
     this->seq = read_file(filename);
     this->input = vector<char>(seq.begin(), seq.end());
-
     this->codes = unordered_map<char, vector<bool>*>();
 }
 
@@ -30,6 +29,7 @@ unordered_map<char, unsigned int> HuffmanSequential::generate_frequency() {
 
 vector<vector<bool>*> HuffmanSequential::encode() {
     auto encoded = vector<vector<bool>*>();
+    encoded.reserve(seq.size());
     for (char i: seq) {
         encoded.push_back(codes[i]);
     }
