@@ -23,7 +23,6 @@ struct Task{
     chunk_t* chunk;
     unordered_map<char, code_t* >* codes;
 
-    // create constructor
     Task(int task_id, string* seq, int n_encoders, chunk_t *chunk, unordered_map<char, code_t* >* codes){
         this->task_id = task_id;
         this->seq = seq;

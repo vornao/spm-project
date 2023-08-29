@@ -15,13 +15,14 @@ using namespace std;
 
 /**
  * Decodes a sequence of bits using a Huffman tree.
+ * Clearly not built for efficiency, but for simplicity.
  * @param encoded the sequence of bits to decode.
  * @param root the root of the Huffman tree.
  * @return string the decoded sequence.
  */
 string decode(const vector<bool> &encoded, const Node *root)
 {
-    auto decoded = new string();
+    std::string decoded = "";
     auto node = root;
     for (auto b : encoded)
     {
@@ -33,11 +34,11 @@ string decode(const vector<bool> &encoded, const Node *root)
         if (node->c != '\0')
         {
             // append the character to the decoded string and reset the node to the root.
-            decoded->push_back(node->c);
+            decoded.push_back(node->c);
             node = root;
         }
     }
-    return *decoded;
+    return decoded;
 }
 
 /**
@@ -173,12 +174,15 @@ bool check_file(const string &filename, const string &seq, const Node *root)
     auto encoded = read_encoded_file(filename);
     auto decoded = decode(*encoded, root);
 
+
     if (seq == decoded)
         cout << "\033[1;32m> File is correct!\033[0m" << endl;
     else
         cout << "\033[1;31mWrong!\033[0m" << endl;
 
-    return seq == decoded;
+    auto val = (seq == decoded);
+    delete encoded;
+    return val;
 }
 
 /**
