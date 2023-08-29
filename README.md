@@ -1,6 +1,8 @@
 # Parallel Huffman Encoding Algorithm with Threads and FastFlow
 ## SPM Project - Parallel and Distributed Systems, paradigms and models, @Unipisa
 
+![Huffman Tree](https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Huffman_tree_2.svg/800px-Huffman_tree_2.svg.png)
+
 ![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 This repository contains an efficient parallel implementation of the Huffman encoding algorithm using threads and the FastFlow library. Huffman encoding is a widely used technique for lossless data compression, and parallelizing it can greatly improve its performance on modern multi-core processors. The FastFlow library is used to manage the parallelism and communication between threads, making it easier to harness the power of parallel computing.
