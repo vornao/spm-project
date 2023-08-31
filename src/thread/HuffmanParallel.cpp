@@ -1,8 +1,3 @@
-//
-// Created by Luca Miglior on 24/07/23.
-//
-
-#include "HuffmanParallel.h"
 #include <utility>
 #include <iostream>
 #include <thread>
@@ -11,9 +6,9 @@
 #include <condition_variable>
 #include <memory>
 #include <optional>
+
+#include "HuffmanParallel.h"
 #include "../utils/utimer.cpp"
-
-
 #include "../utils/huffman-commons.h"
 
 HuffmanParallel::HuffmanParallel(size_t n_mappers, size_t n_encoders, string filename, size_t n_reducers=0) {
@@ -31,9 +26,10 @@ HuffmanParallel::~HuffmanParallel() {
     free_codes(this->codes);
 }
 
+/* sequential reduce version */
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
-    unordered_map<char, unsigned> partial_freqs[n_mappers];
+    unordered_map<char, unsigned> partial_freqs[n_mappers]; // map fusion
     unordered_map<char, unsigned> result;
     vector<thread> thread_mappers(n_mappers);
 
@@ -48,7 +44,7 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
         // mapping phase.
         // note: instead of returning the tuple (char, 1) we return a map with the partial frequencies.
-        // this will reduce the amount of data to be transferred to the reducers.
+        // this will reduce the amount of data to be transferred to the reducers. (map fusion)
         for (size_t i = start; i < end; i++) partial_freqs[tid][seq[i]]++;
     };
 
@@ -60,6 +56,8 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
     return result;
 }
 
+
+/** Parallel reduce version */
 unordered_map<char, unsigned> HuffmanParallel::generate_frequency_gmr(){
     cout << "Generating frequencies with GMR" << endl;
     unordered_map<char, unsigned> partial_freqs[this->n_mappers];
@@ -95,7 +93,7 @@ unordered_map<char, unsigned> HuffmanParallel::generate_frequency_gmr(){
         for (auto &it : partial_freqs[tid])
         {
             auto red_id = it.first % n_reducers;
-            unique_lock<mutex> lock(red_mutexes[red_id]);
+            unique_lock<mutex> lock(red_mutexes[red_id]);  // we need to lock the queues
             red_queues[red_id].emplace(it.first, it.second);
             red_conds[red_id].notify_one();
         }
@@ -155,6 +153,8 @@ encoded_t* HuffmanParallel::encode() {
     auto size = seq.length();
     auto results = new encoded_t (n_encoders);
     
+    // executor body: it will compute chunk size and add the chunk to the vector of chunks
+    // no lock needed since splits are independent.
     auto encode_executor = [&](size_t tid) {
         // split the sequence in chunks
         auto start = tid * (size / n_encoders);

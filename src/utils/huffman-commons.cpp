@@ -185,31 +185,6 @@ bool check_file(const string &filename, const string &seq, const Node *root)
     return val;
 }
 
-/**
- * Print the codes to the console.
- * @param codes the map of codes.
- */
-void print_codes(std::unordered_map<char, std::vector<bool>> &codes)
-{
-    for (auto &it : codes)
-    {
-        std::cout << it.first << ": ";
-        for (auto b : it.second)
-            std::cout << b;
-        std::cout << std::endl;
-    }
-}
-
-/**
- * Print the encoded sequence to the console.
- * @param encoded the sequence of bits to print.
- */
-void print_encoded_sequence(std::vector<bool> &encoded)
-{
-    for (auto b : encoded)
-        std::cout << b;
-    std::cout << std::endl;
-}
 
 /**
  * Writes the encoded sequence to a file, grouping bits into bytes to write an effective compression.
@@ -239,7 +214,7 @@ void write_to_file(std::vector<std::vector<bool> *> &encoded, const std::string 
         {
             byte |= (bit << bitsWritten);
             bitsWritten++;
-            totalWritten++;
+            totalWritten++; // needed for final padding and header
             if (bitsWritten == 8)
             {
                 bytes.push_back(byte);
@@ -262,6 +237,9 @@ void write_to_file(std::vector<std::vector<bool> *> &encoded, const std::string 
     out.close();
 }
 
+
+
+// same function but working on the nested version of the encoding (the one generated from the parallel code)
 void write_to_file(encoded_t &encoded, const std::string &filename)
 {
     std::ofstream out(filename, std::ios::binary);

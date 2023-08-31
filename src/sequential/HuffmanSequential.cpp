@@ -1,6 +1,3 @@
-//
-// Created by Luca Miglior on 24/07/23.
-//
 #include <fstream>
 #include "HuffmanSequential.h"
 #include "../utils/huffman-commons.h"

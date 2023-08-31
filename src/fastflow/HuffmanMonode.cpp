@@ -33,41 +33,41 @@ struct Task{
 };
 
 class Emitter : public ff_monode_t<Task>{
-private:
-    int n_encoders;
-    string seq;
-    unordered_map<char, code_t*> codes;
-    encoded_t partial_res;
+    private:
+        int n_encoders;
+        string seq;
+        unordered_map<char, code_t*> codes;
+        encoded_t partial_res;
 
-public:
-    Emitter(
-        int n_encoders,
-        unordered_map<char, code_t* > codes, const string &seq): n_encoders(n_encoders){
-        this -> seq = seq;
-        this->codes = std::move(codes);
-    }
-    Task *svc(Task*) override{
-        for (int i = 0; i < n_encoders; i++){
-            Task *t = new Task(i, &seq, n_encoders, nullptr, &codes);
-            ff_send_out(t);
+    public:
+        Emitter(
+            int n_encoders,
+            unordered_map<char, code_t* > codes, const string &seq): n_encoders(n_encoders){
+            this -> seq = seq;
+            this->codes = std::move(codes);
         }
-        return EOS;
-    }
-};
+        Task *svc(Task*) override{
+            for (int i = 0; i < n_encoders; i++){
+                Task *t = new Task(i, &seq, n_encoders, nullptr, &codes);
+                ff_send_out(t);
+            }
+            return EOS;
+        }
+    };
 
 class Collector : public ff_node_t<Task>{
-private:
-    encoded_t* partial_res;
-    public:
-        Task* svc(Task* t) override{
-            partial_res->at(t->task_id) = t->chunk;
-            delete t;
-            return GO_ON;
-        }
-        explicit Collector(encoded_t* partial_res){
-            // get pointer to result vector
-            this->partial_res = partial_res;
-        }
+    private:
+        encoded_t* partial_res;
+        public:
+            Task* svc(Task* t) override{
+                partial_res->at(t->task_id) = t->chunk;
+                delete t;
+                return GO_ON;
+            }
+            explicit Collector(encoded_t* partial_res){
+                // get pointer to result vector
+                this->partial_res = partial_res;
+            }
 };
 
 Task* Worker(Task* t, ff::ff_node* nn){
