@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include "thread/HuffmanParallel.h"
+#include "thread/HuffmanThread.h"
 #include "sequential/HuffmanSequential.h"
-#include "fastflow/HuffmanMonode.h"
+#include "fastflow/HuffmanFarm.h"
 
 using namespace std;
 int main(int argc, char** argv) {

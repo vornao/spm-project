@@ -13,7 +13,7 @@
 #define BENCHMARK_FILE "./files/benchmark.csv"
 #define TYPE_SEQ "seq"
 #define TYPE_MAP "map"
-#define TYPE_GMR "gmr-"
+#define TYPE_GMR "map-"
 #define TYPE_FASTFLOW_PF "ff-pf"
 #define TYPE_FASTFLOW_FARM "ff-farm"
 

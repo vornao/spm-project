@@ -7,11 +7,12 @@
 #include <thread>
 #include <utility>
 
-#include "HuffmanFastFlow.h"
+#include "HuffmanParFor.h"
 #include "../utils/huffman-commons.h"
 #include "../utils/utimer.cpp"
 
 using namespace ff;
+
 
 HuffmanFastFlow::HuffmanFastFlow(size_t n_mappers, size_t n_reducers, size_t n_encoders, string filename) {
     this->n_mappers = n_mappers;

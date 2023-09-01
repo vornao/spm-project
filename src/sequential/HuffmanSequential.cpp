@@ -38,31 +38,31 @@ void HuffmanSequential::run() {
  /** frequency map generation **/
     long time_read, time_freqs, time_tree_codes, time_encoding, time_writing;
     {
-        utimer timer("HuffmanGMR", &time_read);
+        utimer timer("", &time_read);
         this->seq = read_file(this->filename);
     }
 
     {
-        utimer timer("HuffmanGMR", &time_freqs);
+        utimer timer("", &time_freqs);
         this->freq_map = generate_frequency();
     }
 
     /** huffman tree generation **/
     {
-        utimer timer("HuffmanGMR", &time_tree_codes);
+        utimer timer("", &time_tree_codes);
         this->tree = generate_huffman_tree(this->freq_map);
         this->codes = generate_huffman_codes(this->tree);
     }
 
     /** encoding **/
     {
-        utimer timer("HuffmanGMR", &time_encoding);
+        utimer timer("", &time_encoding);
         this->encoded_seq = encode();
     }
 
     /** writing **/
     {
-        utimer timer("HuffmanGMR", &time_writing);
+        utimer timer("", &time_writing);
         write_to_file(this->encoded_seq, OUTPUT_FILE);
     }
 

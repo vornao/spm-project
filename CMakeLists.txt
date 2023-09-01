@@ -3,11 +3,9 @@ project(spm_project)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# set LD_PRELOAD
 set(ENV{LD_PRELOAD} "~/Desktop/unipi/SPM/spm-project/lib/jemalloc/lib/libjemalloc.a")
 
 if (APPLE)
-    # print message
     set(JEMALLOC_ROOT "~/Desktop/unipi/SPM/spm-project/lib/jemalloc/")
     message(STATUS "Apple detected -> adding fastflow from ~/fastflow")
     message(STATUS "Apple detected -> adding jemalloc from ~/jemalloc")
@@ -20,8 +18,8 @@ endif ()
 # include fastflow if linux
 if (UNIX AND NOT APPLE)
     # print message
-    set(JEMALLOC_ROOT "/home/l.miglior/project/spm-project/lib/jemalloc/lib")
-    message(STATUS "Linux detected -> adding fastflow from /usr/local/include")
+    #set(JEMALLOC_ROOT "/home/l.miglior/project/spm-project/lib/jemalloc/lib")
+    message(STATUS "Linux detected -> adding fastflow and jemalloc from /usr/local/include")
     include_directories(/usr/local/include)
     link_directories(/usr/local/lib)
 
@@ -54,14 +52,14 @@ add_executable(
     src/utils/huffman-commons.h
     src/utils/huffman-commons.cpp
     src/utils/utimer.cpp
-    src/thread/HuffmanParallel.cpp
-    src/thread/HuffmanParallel.h
+    src/thread/HuffmanThread.cpp
+    src/thread/HuffmanThread.h
     src/sequential/HuffmanSequential.cpp
     src/sequential/HuffmanSequential.h
-    src/fastflow/HuffmanFastFlow.cpp
-    src/fastflow/HuffmanFastFlow.h
-    src/fastflow/HuffmanMonode.h
-    src/fastflow/HuffmanMonode.cpp
+    src/fastflow/HuffmanParFor.cpp
+    src/fastflow/HuffmanParFor.h
+    src/fastflow/HuffmanFarm.h
+    src/fastflow/HuffmanFarm.cpp
 )
 
 #target_link_libraries(spm_project ${JEMALLOC_LIB})

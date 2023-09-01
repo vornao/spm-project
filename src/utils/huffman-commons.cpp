@@ -345,7 +345,6 @@ void write_benchmark(
     auto total_elapsed_no_rw = time_freqs + time_tree_codes + time_encoding;
     auto total_elapsed_rw = total_elapsed_no_rw + time_writing + time_read;
 
-    // write benchmark file with csv format n_mappers, n_reducers, n_encoders, time_freqs, time_tree_codes, time_encoding, time_writing, total_elapsed_no_rw, total_elapsed_rw
     ofstream benchmark_file;
     benchmark_file.open(BENCHMARK_FILE, ios::out | ios::app);
     auto bench_string = 

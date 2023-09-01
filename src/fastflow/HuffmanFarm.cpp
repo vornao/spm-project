@@ -9,7 +9,7 @@
 #include <ff/ff.hpp>
 #include <ff/parallel_for.hpp>
 
-#include "HuffmanMonode.h"
+#include "HuffmanFarm.h"
 #include "../utils/huffman-commons.h"
 #include "../utils/utimer.cpp"
 

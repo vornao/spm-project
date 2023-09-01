@@ -7,7 +7,7 @@
 #include <memory>
 #include <optional>
 
-#include "HuffmanParallel.h"
+#include "HuffmanThread.h"
 #include "../utils/utimer.cpp"
 #include "../utils/huffman-commons.h"
 
@@ -29,8 +29,8 @@ HuffmanParallel::~HuffmanParallel() {
 /* sequential reduce version */
 unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 
-    unordered_map<char, unsigned> partial_freqs[n_mappers]; // map fusion
-    unordered_map<char, unsigned> result;
+    unordered_map<char, unsigned> partial_freqs[n_mappers]; // partial result array for each thread, using map fusion concept.
+    unordered_map<char, unsigned> result;                   // result to be returned
     vector<thread> thread_mappers(n_mappers);
 
     auto map_executor = [&](size_t tid) {
@@ -57,9 +57,10 @@ unordered_map<char, unsigned int> HuffmanParallel::generate_frequency() {
 }
 
 
-/** Parallel reduce version */
+/** 
+ * Parallel reduce version, just for demonstration purposes only; justification may be found on the report
+ */
 unordered_map<char, unsigned> HuffmanParallel::generate_frequency_gmr(){
-    cout << "Generating frequencies with GMR" << endl;
     unordered_map<char, unsigned> partial_freqs[this->n_mappers];
     vector<mutex> red_mutexes(this->n_reducers);
     vector<condition_variable> red_conds(this->n_reducers);
@@ -99,6 +100,7 @@ unordered_map<char, unsigned> HuffmanParallel::generate_frequency_gmr(){
         }
     };
 
+    // code for the reducers threads; 
     auto reduce_executor = [&](size_t nred)
     {
         unordered_map<char, unsigned> partial_res;
@@ -106,15 +108,16 @@ unordered_map<char, unsigned> HuffmanParallel::generate_frequency_gmr(){
         // reduce phase, until nullptr is received.
         while (true)
         {
-            {
+            std::pair<unsigned char, unsigned> pair;
+            {   
+                // we need mutual exclusion to pop elements from the queue
                 unique_lock<mutex> lock(red_mutexes[nred]);
                 red_conds[nred].wait(lock, [&](){ return !red_queues[nred].empty(); });
-                auto pair = red_queues[nred].front();
-                red_queues[nred].pop();    
-                if (pair.first == '\0')
-                break;
-                partial_res[pair.first] += pair.second; 
+                pair = red_queues[nred].front();
+                red_queues[nred].pop();     
             }
+            if (pair.first == '\0') break;
+            partial_res[pair.first] += pair.second; 
         }
 
         // merge the partial results
@@ -207,7 +210,6 @@ void HuffmanParallel::run() {
         utimer timer("encoding time", &time_encoding);
         this->encoded = encode();
     }
-    cout << "encoded size: " << encoded->size() << endl;
     /** writing **/
     long time_writing;
     {
