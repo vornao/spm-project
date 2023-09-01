@@ -9,14 +9,13 @@
 #include <memory>
 #include <bitset>
 
-#define OUTPUT_FILE "./files/output.bin"
-#define BENCHMARK_FILE "./files/benchmark.csv"
+#define OUTPUT_FILE "./output.bin"
+#define BENCHMARK_FILE "./benchmark.csv"
 #define TYPE_SEQ "seq"
 #define TYPE_MAP "map"
 #define TYPE_GMR "map-"
 #define TYPE_FASTFLOW_PF "ff-pf"
 #define TYPE_FASTFLOW_FARM "ff-farm"
-
 #define BENCHMARK_HEADER "time_read,time_freqs,time_tree_codes,time_encode,time_write,n_mappers,n_reducers,n_encoders\n"
 
 using namespace std;
