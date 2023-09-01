@@ -19,6 +19,8 @@ int main(int argc, char** argv) {
     cout << "---------------------------------------------------------------" << endl;
     cout << "Filename: " << filename << endl;
 
+    
+
 
     if (exec_type == "seq") {
         cout << "Running Huffman Sequential..." << endl;

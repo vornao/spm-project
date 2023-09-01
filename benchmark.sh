@@ -1,14 +1,9 @@
 #!/bin/bash
 # run spm_project with different parameters
 
-# create file "benchmark.csv" if it doesn't exist, and write the header
-
-# go to build directory
-
-# create a variable with filename
-FILENAME="./files/benchmark.csv"
-INPUT_FILE="./files/input.64M.txt"
-OUTPUT_FILE="./files/output.bin"
+FILENAME="./benchmark.csv"
+INPUT_FILE="./input.64K.txt"
+OUTPUT_FILE="./output.bin"
 
 if [ ! -f $FILENAME ]; then
     rm $FILENAME
@@ -20,7 +15,6 @@ if [ ! -f $OUTPUT_FILE ]; then
     rm $OUTPUT_FILE
 fi
 
-<<COMMENT
 echo "Running benchmark with fastflow"
 for (( i = 2; i < 130; i=i+2 )) do
     ./build/spm_project $INPUT_FILE $i 1 $i ff
@@ -46,7 +40,7 @@ for (( i = 2; i < 130; i=i+2 )) do
     sleep 1
 done
 
-COMMENT
+#COMMENT
 
 for (( i = 2; i < 130; i=i+2 )) do
     echo "Running with $i threads... and 4 reducers"
